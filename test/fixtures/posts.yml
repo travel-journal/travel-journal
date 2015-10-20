@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  trip: MyString
+  caption: MyText
+  location: MyString
+  date: 2015-10-14
+  time: 2015-10-14 23:59:20
+  like_count: 1
+
+two:
+  title: MyString
+  trip: MyString
+  caption: MyText
+  location: MyString
+  date: 2015-10-14
+  time: 2015-10-14 23:59:20
+  like_count: 1
