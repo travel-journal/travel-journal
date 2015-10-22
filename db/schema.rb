@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20151023032235) do
 
   create_table "trips", force: :cascade do |t|
     t.string   "title"
-    t.integer  "user_id"
+    t.string   "user_id"
     t.text     "about"
     t.date     "start_date"
     t.date     "end_date"
@@ -69,5 +69,4 @@ ActiveRecord::Schema.define(version: 20151023032235) do
 
   add_foreign_key "posts", "trips"
   add_foreign_key "posts", "users"
-  add_foreign_key "trips", "users"
 end
