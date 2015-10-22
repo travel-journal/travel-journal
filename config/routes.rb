@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   devise_for :users
   resources :users
 
-   root to: "users#index"
+  # This is the 'home' page for the app
+   root to: "users#root"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
