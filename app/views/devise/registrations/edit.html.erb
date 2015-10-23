@@ -1,54 +1,58 @@
-<h2>Update <%= resource_name.to_s.humanize %></h2>
+<div class="row">
+  <div class="col-md-3 col-md-offset-4">
+    <div class="card-box">
+    <h1 class="center-heading">Update Profile</h1>
 
-<%= form_for(resource, as: resource_name, url: update_user_registration_path, html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
+    <%= form_for(resource, as: resource_name, url: update_user_registration_path, html: { method: :put }) do |f| %>
+      <%= devise_error_messages! %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+      <div class="field">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autofocus: true, :class => "form-control" %>
+      </div>
+
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+      <% end %>
+
+      <div class="field">
+        <%= f.label :new_password %> <i>(leave blank if you don't want to change it)</i><br />
+        <%= f.password_field :password, autocomplete: "off", :class => "form-control" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :new_password_confirmation %><br />
+        <%= f.password_field :password_confirmation, autocomplete: "off", :class => "form-control" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+        <%= f.password_field :current_password, autocomplete: "off", :class => "form-control" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :first_name %><br>
+        <%= f.text_field :first_name, :class => "form-control" %>
+      </div>
+      <div class="field">
+        <%= f.label :last_name %><br>
+        <%= f.text_field :last_name, :class => "form-control" %>
+      </div>
+      <div class="field">
+        <%= f.label :about %><br>
+        <%= f.text_area :about, :class => "form-control" %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Update", :class => "btn my-btn" %>
+      </div>
+    <% end %>
+
+    <h1 class="center-heading">Delete my account</h1>
+    <%= button_to "Delete", user_registration_path, data: { confirm: "Are you sure?" }, method: :delete, :class => "btn btn-danger btn-center"  %>
+
+    <div class="center" style="margin-top: 20px;">
+      <a href="/api/trips">&#8592; Back</a>
+    </div>
   </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :new_password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :new_password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :first_name %><br>
-    <%= f.text_field :first_name %>
-  </div>
-  <div class="field">
-    <%= f.label :last_name %><br>
-    <%= f.text_field :last_name %>
-  </div>
-  <div class="field">
-    <%= f.label :about %><br>
-    <%= f.text_area :about %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<br><br>
-
-<h3>Delete my account</h3>
-<%= button_to "Delete my account", user_registration_path, data: { confirm: "Are you sure?" }, method: :delete %>
-
-<br><br>
-<%= link_to "Back", :back %>
+</div>

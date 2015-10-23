@@ -1,39 +1,18 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Listing Trips</h1>
-
-<%= form_tag(trips_path, :method => "get", id: "search-form") do %>
-<%= text_field_tag :search, params[:search], placeholder: "Search Trips" %>
-<%= submit_tag "Search" %>
-<% end %>
-
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Start Date</th>
-      <th>End Date</th>
-      <th colspan="5"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% if @trips.present? %>
+<div class="row">
+  <div class="col-md-3 col-md-offset-4">
+    <h2 class="center-heading">Your Trips</h2>
       <% @trips.each do |trip| %>
-        <tr>
-          <td><%= trip.title %></td>
-          <td><%= trip.start_date.strftime("%b %d, %Y") %></td>
-          <td><%= trip.end_date.strftime("%b %d, %Y") %></td>
-          <td><%= link_to 'Show', trip %></td>
-          <td><%= link_to 'Edit', edit_trip_path(trip) %></td>
-          <td><%= link_to 'Destroy', trip, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr>
+        <div class="trip-box">
+          <h3 class="title"><%= trip.title %></h3>
+          <p><%= trip.about %></p>
+          <p class="time">From <%= trip.start_date.strftime("%B %d, %Y") %> to <%= trip.end_date.strftime("%B %d, %Y") %> </p>
+          <%= link_to 'Expand', trip %>
+          <%= link_to 'Edit', edit_trip_path(trip) %>
+          <%= link_to 'Delete', trip, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </div>
       <% end %>
-    <% else %>
-      <p>There are no trips containing the term(s) '<%= params[:search] %>'.</p>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-<%= link_to 'New Trip', new_trip_path %>
+      <div class="center">
+        <a href=/trips/new>Make a new trip &#8594;</a>
+      </div>
+  </div>
+</div>
