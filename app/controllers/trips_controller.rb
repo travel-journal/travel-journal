@@ -5,7 +5,11 @@ class TripsController < ApplicationController
   # GET /trips
   # GET /trips.json
   def index
-    @trips = Trip.where(:user_id => current_user.id)
+    if params[:search]
+      @trips = Trip.where(:user_id => current_user.id).search(params[:search]).order("start_date DESC")
+    else
+      @trips = Trip.where(:user_id => current_user.id).order('start_date DESC')
+    end
   end
 
   # GET /trips/1
