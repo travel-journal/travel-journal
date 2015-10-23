@@ -2,6 +2,11 @@
 
 <h1>Listing Trips</h1>
 
+<%= form_tag(trips_path, :method => "get", id: "search-form") do %>
+<%= text_field_tag :search, params[:search], placeholder: "Search Trips" %>
+<%= submit_tag "Search" %>
+<% end %>
+
 <table>
   <thead>
     <tr>
@@ -13,15 +18,19 @@
   </thead>
 
   <tbody>
-    <% @trips.each do |trip| %>
-      <tr>
-        <td><%= trip.title %></td>
-        <td><%= trip.start_date.strftime("%b %d, %Y") %></td>
-        <td><%= trip.end_date.strftime("%b %d, %Y") %></td>
-        <td><%= link_to 'Show', trip %></td>
-        <td><%= link_to 'Edit', edit_trip_path(trip) %></td>
-        <td><%= link_to 'Destroy', trip, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+    <% if @trips.present? %>
+      <% @trips.each do |trip| %>
+        <tr>
+          <td><%= trip.title %></td>
+          <td><%= trip.start_date.strftime("%b %d, %Y") %></td>
+          <td><%= trip.end_date.strftime("%b %d, %Y") %></td>
+          <td><%= link_to 'Show', trip %></td>
+          <td><%= link_to 'Edit', edit_trip_path(trip) %></td>
+          <td><%= link_to 'Destroy', trip, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    <% else %>
+      <p>There are no trips containing the term(s) '<%= params[:search] %>'.</p>
     <% end %>
   </tbody>
 </table>
