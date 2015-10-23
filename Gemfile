@@ -50,3 +50,12 @@ gem 'devise'
 # For uploading images
 gem 'rmagick'
 gem 'carrierwave'
+
+# For AWS cloud storage
+gem 'fog'
+
+# Stores s3 key info
+gem 'figaro'
+
+
+
