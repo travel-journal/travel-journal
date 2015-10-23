@@ -15,8 +15,19 @@ class TripsController < ApplicationController
   # GET /trips/1
   # GET /trips/1.json
   def show
-    @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id)
-    @num_days = @posts_of_trip.count
+    @posts_of_trip = Post.where(:user_id => current_user.id).order("created_at")
+    # @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order("created_at DESC")
+
+
+    previous = nil
+    @a_post_a_day = Array.new
+    for post in @posts_of_trip
+      if previous != post[:date]
+        @a_post_a_day.push(post)
+        previous = post[:date]
+      end
+    end
+
   end
 
   # GET /trips/new

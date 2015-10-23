@@ -1,12 +1,12 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <% @posts_of_trip.to_a %>
+  <% @a_post_a_day.to_a %>
   <% @num_days %>
 
-  <% if !@posts_of_trip.empty? %>
+  <% if !@a_post_a_day.empty? %>
     <% @i = 0 %>
-    <% @posts_of_trip.each do |p| %>
+    <% @a_post_a_day.each do |p| %>
       <% @i += 1 %>
       <strong>Day <%= @i %></strong>
       <%= p.title %>
