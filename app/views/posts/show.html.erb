@@ -39,7 +39,12 @@
           <strong>Like count:</strong>
           <%= p.like_count %>
         </p>
-      <%#= link_to(p.title, day_posts_path({:date => p.date, :trip_id => p.trip_id})) %>
+        <%# modify this to be able to click on particular post %>
+        <%#= link_to(p.title, day_posts_path({:date => p.date, :trip_id => p.trip_id})) %>
+        
+        <%= link_to 'Edit', edit_post_path(p) %> 
+        
+
     </br> </br>
     <% end %>
 
@@ -51,5 +56,4 @@
 
 
 
-<%#= link_to 'Edit', edit_post_path(@post) %> 
 <%= link_to 'Back', trip_path(params[:trip_id]) %>
