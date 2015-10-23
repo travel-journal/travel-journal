@@ -15,6 +15,8 @@ class TripsController < ApplicationController
   # GET /trips/1
   # GET /trips/1.json
   def show
+    @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id)
+    @num_days = @posts_of_trip.count
   end
 
   # GET /trips/new
