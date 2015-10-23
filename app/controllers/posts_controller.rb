@@ -1,10 +1,11 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!
 
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
+    @posts = Post.where(:user_id => current_user.id) #and :trip_id => current_trip.id and day?)
   end
 
   # GET /posts/1
@@ -25,6 +26,8 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     @post = Post.new(post_params)
+    @post.user_id = current_user.id
+    @post.like_count = 0
 
     respond_to do |format|
       if @post.save
@@ -61,6 +64,36 @@ class PostsController < ApplicationController
     end
   end
 
+   def like_post
+        #if params[:id].blank? or params[:id].to_f % 1 != 0
+         #   render json:{"status":-1, "errors":["Invalid smile id"]}
+         #   return
+        #end
+        
+        success = true
+        begin
+            @post = Post.find(params[:id])
+        rescue ActiveRecord::RecordNotFound => e
+            success = false
+            #render json:{"status":-1, "errors":["Invalid smile id"]}
+        end
+        if success
+            @post.like_count += 1
+            if @post.save
+                redirect_to :back
+                #render json:{"status":1}
+            end
+            #else 
+                #errors = []
+                #for i in @smile.errors
+                #    for error in @smile.errors[i]
+                #        errors.append("#{i} " + error)
+                #    end
+                #end
+            #    render json:{"status":-1}
+            #end
+        end
+    end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
@@ -69,6 +102,7 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:title, :trip, :caption, :location, :date, :time, :like_count)
+      params.require(:post).permit(:title, :caption, :location, :date, :time, :like_count, :image)
+      #params.require(:post).permit(:title, :trip, :caption, :location, :date, :time, :like_count, :image)
     end
 end

@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20151023032235) do
     t.datetime "updated_at", null: false
     t.integer  "user_id"
     t.integer  "trip_id"
+    t.string   "image"
   end
 
   add_index "posts", ["trip_id"], name: "index_posts_on_trip_id", using: :btree

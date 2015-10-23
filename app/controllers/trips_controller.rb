@@ -1,10 +1,11 @@
 class TripsController < ApplicationController
   before_action :set_trip, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!
 
   # GET /trips
   # GET /trips.json
   def index
-    @trips = Trip.all
+    @trips = Trip.where(:user_id => current_user.id)
   end
 
   # GET /trips/1
@@ -25,6 +26,7 @@ class TripsController < ApplicationController
   # POST /trips.json
   def create
     @trip = Trip.new(trip_params)
+    @trip.user_id = current_user.id
 
     respond_to do |format|
       if @trip.save
@@ -69,6 +71,6 @@ class TripsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def trip_params
-      params.require(:trip).permit(:title, :user_id, :about, :startDate, :endDate)
+      params.require(:trip).permit(:title, :about, :start_date, :end_date)
     end
 end
