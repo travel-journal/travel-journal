@@ -18,11 +18,13 @@
 }
 
 .card-box label {
+  margin-top: 10px;
   font-weight: 300;
   font-size: 1.1em;
 }
 
 .card-box .field {
+  margin-top: 3px;
   font-weight: 300;
   font-size: 1.1em;
 }
@@ -42,4 +44,12 @@
   padding-top: 20px;
   font-size: 1.1em;
   text-align: center;
+}
+
+.card-box .btn-center {
+  display: block;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-top: 30px;
+  margin: 0px auto;
 }
