@@ -1,5 +1,11 @@
-<h1>New Trip</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Back', trips_path %>
+<div class="row">
+  <div class="col-md-3 col-md-offset-4">
+    <div class="trip-box">
+      <h1 class="center-heading">New Trip</h1>
+      <%= render 'form' %>
+      <div class="center">
+        <a href=/api/trips>&#8592; Back</a>
+      </div>
+    </div>
+  </div>
+</div>
