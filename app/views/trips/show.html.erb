@@ -9,7 +9,10 @@
     <% @a_post_a_day.each do |p| %>
       <% @i += 1 %>
       <strong>Day <%= @i %></strong>
+      <%= link_to(p) do %>
       <%= p.title %>
+    </br> </br>
+      <% end %>
     <% end %>
 
   <% end %>
