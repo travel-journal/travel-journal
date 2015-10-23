@@ -18,7 +18,7 @@
   <ul class="nav navbar-nav navbar-right">
     <% if user_signed_in? %>
       <li class="nav-link"><a href="/api/trips"><%= current_user.username %></a></li>
-      <li class="nav-link"><%= link_to "Edit profile", edit_user_registration_path %></li>
+      <li class="nav-link"><%= link_to "Update profile", edit_user_registration_path %></li>
       <li class="nav-link"><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
     <% else %>
       <li class="nav-link"><%= link_to "Sign up", new_user_registration_path %><li>
