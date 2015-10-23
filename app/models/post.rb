@@ -1,6 +1,5 @@
 class Post < ActiveRecord::Base
   validates :title, :presence => true
-  #validates :trip, :presence => true
   validates :date, :presence => true
   
   # should initialize to 0 in controller?
