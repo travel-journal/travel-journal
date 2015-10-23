@@ -1,11 +1,39 @@
-Rails.application.routes.draw do
-  resources :posts
-  resources :trips
-  devise_for :users
-  #resources :users
+Rails.application.routes.draw do 
+  root to: "users#root"
 
-  # This is the 'home' page for the app
-   root to: "users#root"
+  #get '/users/sign_in', to: 'devise/sessions#new', as: 'new_user_session'
+  #get '/users/password/new', to: 'devise/passwords#new', as: 'new_user_password'
+  #get '/users/password/edit', to: 'devise/passwords#edit', as: 'edit_user_password'
+  #get '/users/sign_up', to: 'devise/registrations#new', as: 'new_user_registration'
+  #get '/users/edit', to: 'devise/registrations#edit', as: 'edit_user_registration' 
+  
+  # it skips these and goes to the api/ routes because of the named helpers
+  # can't override named helpers so need to change the calls in the views
+  get '/users/sign_in', to: 'devise/sessions#new'
+  get '/users/password/new', to: 'devise/passwords#new'
+  get '/users/password/edit', to: 'devise/passwords#edit'
+  get '/users/sign_up', to: 'devise/registrations#new'
+  get '/users/edit', to: 'devise/registrations#edit'
+
+  # new and edit return html pages with forms
+  # they don't interact with models so they don't get /api prefix
+  scope 'api', except: [:new, :edit] do
+    devise_for :users
+    #resources :users
+    resources :trips
+    resources :posts  
+  end
+  
+  # built-in index and show routes should be used to get data from database
+  # and respond with it
+  get '/trips/new', to: 'trips#new'
+  get '/trips/:id/edit', to: 'trips#edit'
+  get '/posts/new', to: 'postss#new'
+  get '/posts/:id/edit', to: 'posts#edit'
+
+
+
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
