@@ -39,8 +39,6 @@ Rails.application.routes.draw do
 
 
 
-
-
   post '/posts/:id/like_post' => 'posts#like_post', as: 'like_post'# constraints: {:id => /[^\/]+/}
 
 end

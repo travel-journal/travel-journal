@@ -1,21 +1,22 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Title:</strong>
-  <%= @trip.title %>
-</p>
+  <% @a_post_a_day.to_a %>
+  <% @num_days %>
 
+  <% if !@a_post_a_day.empty? %>
+    <% @i = 0 %>
+    <% @a_post_a_day.each do |p| %>
+      <% @i += 1 %>
+      <strong>Day <%= @i %></strong>
+      <%= link_to(p) do %>
+      <%= p.title %>
+    </br> </br>
+      <% end %>
+    <% end %>
 
-<p>
-  <strong>Start Date:</strong>
-  <%= @trip.start_date.strftime("%b %d, %Y") %>
-  <strong>End Date:</strong>
-  <%= @trip.end_date.strftime("%b %d, %Y") %>
-</p>
+  <% end %>
 
-<p>
-  <strong>About:</strong>
-  <%= @trip.about %>
 </p>
 
 
