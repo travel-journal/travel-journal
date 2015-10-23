@@ -6,8 +6,6 @@
   <thead>
     <tr>
       <th>Title</th>
-      <th>User</th>
-      <th>About</th>
       <th>Start Date</th>
       <th>End Date</th>
       <th colspan="5"></th>
@@ -18,10 +16,8 @@
     <% @trips.each do |trip| %>
       <tr>
         <td><%= trip.title %></td>
-        <td><%= trip.user_id %></td>
-        <td><%= trip.about %></td>
-        <td><%= trip.start_date %></td>
-        <td><%= trip.end_date %></td>
+        <td><%= trip.start_date.strftime("%b %d, %Y") %></td>
+        <td><%= trip.end_date.strftime("%b %d, %Y") %></td>
         <td><%= link_to 'Show', trip %></td>
         <td><%= link_to 'Edit', edit_trip_path(trip) %></td>
         <td><%= link_to 'Destroy', trip, method: :delete, data: { confirm: 'Are you sure?' } %></td>
