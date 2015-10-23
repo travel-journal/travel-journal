@@ -69,4 +69,5 @@ ActiveRecord::Schema.define(version: 20151023032235) do
 
   add_foreign_key "posts", "trips"
   add_foreign_key "posts", "users"
+  add_foreign_key "trips", "users"
 end
