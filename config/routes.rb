@@ -1,6 +1,6 @@
 Rails.application.routes.draw do 
   root to: "users#root"
-  
+  devise_for :users, skip: :all
   # had to manually make these to prefix only some with /api
   devise_for :users, skip: :all
   devise_scope :user do
