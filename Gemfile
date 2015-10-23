@@ -47,3 +47,6 @@ end
 
 gem 'devise'
 
+# For uploading images
+gem 'rmagick'
+gem 'carrierwave'
