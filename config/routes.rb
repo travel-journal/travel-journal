@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   # This is the 'home' page for the app
    root to: "users#root"
 
+  post '/posts/:id/like_post' => 'posts#like_post', as: 'like_post'# constraints: {:id => /[^\/]+/}
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
