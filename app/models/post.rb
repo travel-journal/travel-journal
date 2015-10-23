@@ -11,6 +11,6 @@ class Post < ActiveRecord::Base
 
   
   belongs_to :user
-  belongs_to :trip
+  belongs_to :trip, :foreign_key => :trip_id
   mount_uploader :image, ImageUploader
 end
