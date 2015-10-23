@@ -1,6 +1,6 @@
 class Post < ActiveRecord::Base
   validates :title, :presence => true
-  validates :trip, :presence => true
+  #validates :trip, :presence => true
   validates :date, :presence => true
   validates :like_count, :presence => true
   validates :like_count, :numericality => {
