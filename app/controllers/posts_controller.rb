@@ -94,6 +94,24 @@ class PostsController < ApplicationController
             #end
         end
     end
+
+
+  def add_comment
+    success = true
+    begin
+      @post = Post.find(params[:id])
+    rescue ActiveRecord::RecordNotFound => e
+      success = false
+      redirect_to :back
+    end
+    if success
+        #render params
+        #puts params[:comment]
+        @post.comments.push(params[:comment])
+        @post.save
+    end
+    redirect_to :back
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post

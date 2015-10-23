@@ -42,6 +42,7 @@ Rails.application.routes.draw do
 
 
 
-  post '/posts/:id/like_post' => 'posts#like_post', as: 'like_post'# constraints: {:id => /[^\/]+/}
+  post '/api/posts/:id/like_post' => 'posts#like_post', as: 'like_post'# constraints: {:id => /[^\/]+/}
+  post '/api/posts/:id/add_comment' => 'posts#add_comment', as: 'add_comment'
 
 end
