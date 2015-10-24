@@ -1,59 +1,32 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <% if !@posts_of_day.empty? %>
-    <% @posts_of_day.each do |p| %>
-        <p>
-          <strong>Title:</strong>
-          <%= p.title %>
-        </p>
-
-        <%= image_tag p.image_url.to_s %>
-
-        <p>
-          <strong>Trip:</strong>
-          <%= p.trip %>
-        </p>
-
-        <p>
-          <strong>Caption:</strong>
-          <%= p.caption %>
-        </p>
-
-        <p>
-          <strong>Location:</strong>
-          <%= p.location %>
-        </p>
-
-        <p>
-          <strong>Date:</strong>
-          <%= p.date %>
-        </p>
-
-        <p>
-          <strong>Time:</strong>
-          <%= p.time %>
-        </p>
-
-        <p>
-          <strong>Like count:</strong>
-          <%= p.like_count %>
-        </p>
-        <%# modify this to be able to click on particular post %>
-        <%#= link_to(p.title, day_posts_path({:date => p.date, :trip_id => p.trip_id})) %>
-        
-        <%= link_to 'Edit', edit_post_path(p) %> 
-        
-
-    </br> </br>
+<div class="row">
+  <div class="col-md-3 col-md-offset-4">
+    <div class="post-container">
+      <div class="trip-details">
+        <h2><%= @posts_of_day.first.trip.title %> - <%= @posts_of_day.first.date.strftime("%b %d, %Y") %></h2>
+      </div>
+      <% if !@posts_of_day.empty? %>
+        <% @posts_of_day.each do |p| %>
+          <div class="post-box">
+            <h3><%= p.title %></h3>
+            <div class="post-details">
+              <%= p.time.strftime("%I:%M%p") %>, <%= p.location %>
+            </div>
+            <%= image_tag p.image_url.to_s %>
+            <h5><%= p.caption %></h5>
+            <div class="like-count">
+              Likes: <%= p.like_count %>
+            </div>
+          </div>
+          <%# modify this to be able to click on particular post %>
+          <%#= link_to(p.title, day_posts_path({:date => p.date, :trip_id => p.trip_id})) %>
+      <% end %>
     <% end %>
+    <div class="center">
+      <%= link_to "\u2190 Back", trip_path(params[:trip_id])%>
+    </div>
+    </div>
+  </div>
+</div>
 
-  <% end %>
-
-</p>
 
 
-
-
-
-<%= link_to 'Back', trip_path(params[:trip_id]) %>
