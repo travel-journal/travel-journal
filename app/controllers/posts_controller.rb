@@ -1,7 +1,9 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  # took out :show to allow day_posts (show all the posts in one day)
+  # need to put back if we want to allow viewing just one post using show through /api/posts/:id
+  before_action :set_post, only: [:edit, :update, :destroy]
   before_filter :authenticate_user!
-
+  @@trip_id = nil
   # GET /posts
   # GET /posts.json
   def index
@@ -11,11 +13,13 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
+    @posts_of_day = Post.where(:trip_id => params[:trip_id], :user_id => current_user.id, :date => params[:date]).order("time DESC")
   end
 
   # GET /posts/new
   def new
     @post = Post.new
+    @@trip_id = params[:trip_id]
   end
 
   # GET /posts/1/edit
@@ -28,11 +32,15 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.user_id = current_user.id
     @post.like_count = 0
+    @post.trip_id = @@trip_id
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render :show, status: :created, location: @post }
+        format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' }
+        # to display the new post after creating it
+        #format.html { redirect_to @post, notice: 'Post was successfully created.' }
+        #format.json { render :show, status: :created, location: @post }
+
       else
         format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }
@@ -46,7 +54,9 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
-        format.json { render :show, status: :ok, location: @post }
+        format.json {render day_posts_path({:date => p.date, :trip_id => p.trip_id}), status: :ok, location: @post}
+        # to display the post after updating it
+        #format.json { render :show, status: :ok, location: @post }
       else
         format.html { render :edit }
         format.json { render json: @post.errors, status: :unprocessable_entity }

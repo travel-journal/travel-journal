@@ -15,7 +15,7 @@ class TripsController < ApplicationController
   # GET /trips/1
   # GET /trips/1.json
   def show
-    @posts_of_trip = Post.where(:user_id => current_user.id).order("created_at")
+    @posts_of_trip = Post.where(:user_id => current_user.id).order("date")
     # @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order("created_at DESC")
 
 
