@@ -1,10 +1,18 @@
 Instructions on how to run the application
 
+
 git clone git@github.com:travel-journal/travel-journal.git
+
 brew install imagemagick
+
 bundle install
+
 (add application.yml to config directory)
+
 rake db:migrate:redo VERSION=20151015080117
+
 rake db:migrate
+
 rails server
+
 open localhost:3000 in your browser
