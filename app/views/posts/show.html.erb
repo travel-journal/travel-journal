@@ -1,7 +1,6 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <% if !@posts_of_day.empty? %>
     <% @posts_of_day.each do |p| %>
         <p>
           <strong>Title:</strong>
@@ -48,7 +47,6 @@
     </br> </br>
     <% end %>
 
-  <% end %>
 
 </p>
 

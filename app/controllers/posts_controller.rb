@@ -53,8 +53,9 @@ class PostsController < ApplicationController
   def update
     respond_to do |format|
       if @post.update(post_params)
-        format.html { redirect_to @post, notice: 'Post was successfully updated.' }
-        format.json {render day_posts_path({:date => p.date, :trip_id => p.trip_id}), status: :ok, location: @post}
+        format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' }
+
+        #format.html { redirect_to @post, notice: 'Post was successfully updated.' }
         # to display the post after updating it
         #format.json { render :show, status: :ok, location: @post }
       else
