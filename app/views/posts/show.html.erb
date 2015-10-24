@@ -8,11 +8,6 @@
 <%= image_tag @post.image_url.to_s %>
 
 <p>
-  <strong>Trip:</strong>
-  <%= @post.trip %>
-</p>
-
-<p>
   <strong>Caption:</strong>
   <%= @post.caption %>
 </p>
@@ -36,6 +31,18 @@
   <strong>Like count:</strong>
   <%= @post.like_count %>
 </p>
-
+<p>
+  <strong>Comments:</strong>
+  <%@post.comments.each do |comment|%>
+      <p> <%= comment %> </p>
+  <%end%>
+  
+  <p>
+      <%= form_tag('/api/posts/'+@post.id.to_s+'/add_comment', method: 'post') do %>
+          <%= text_area_tag(:comment, 'Add Comment') %><br>
+          <%= submit_tag("Add Comment") %>
+      <%end %>
+  </p>
+</p>
 <%= link_to 'Edit', edit_post_path(@post) %> |
 <%= link_to 'Back', posts_path %>

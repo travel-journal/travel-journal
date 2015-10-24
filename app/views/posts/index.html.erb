@@ -7,7 +7,6 @@
     <tr>
         <th>Title</th>
         <th>Image</th>
-      <th>Trip</th>
       <th>Caption</th>
       <th>Location</th>
       <th>Date</th>
@@ -22,7 +21,6 @@
       <tr>
           <td><%= post.title %></td>
           <td><%= image_tag post.image_url(:thumb) if post.image? %></td>
-        <td><%= post.trip %></td>
         <td><%= post.caption %></td>
         <td><%= post.location %></td>
         <td><%= post.date %></td>
