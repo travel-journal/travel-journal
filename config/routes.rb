@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   root to: "users#root"
   devise_for :users, skip: :all
   # had to manually make these to prefix only some with /api
-  devise_for :users, skip: :all
   devise_scope :user do
     get '/users/sign_in', to: 'devise/sessions#new', as: 'new_user_session'
     post '/api/users/sign_in', to: 'devise/sessions#create', as: 'user_session'
