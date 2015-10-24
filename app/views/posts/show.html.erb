@@ -15,10 +15,11 @@
             <h5><%= p.caption %></h5>
             <div class="like-count">
               Likes: <%= p.like_count %>
+              <%= link_to 'Edit', edit_post_path(p) %> 
+              <%# modify this to be able to click on particular post %>
+              <%#= link_to(p.title, day_posts_path({:date => p.date, :trip_id => p.trip_id})) %>
             </div>
           </div>
-          <%# modify this to be able to click on particular post %>
-          <%#= link_to(p.title, day_posts_path({:date => p.date, :trip_id => p.trip_id})) %>
       <% end %>
     <% end %>
     <div class="center">
@@ -27,6 +28,4 @@
     </div>
   </div>
 </div>
-
-
 

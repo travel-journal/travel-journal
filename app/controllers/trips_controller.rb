@@ -15,10 +15,7 @@ class TripsController < ApplicationController
   # GET /trips/1
   # GET /trips/1.json
   def show
-    @posts_of_trip = Post.where(:user_id => current_user.id).order("date")
-    # @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order("created_at DESC")
-
-
+    @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order("created_at DESC")
     previous = nil
     @a_post_a_day = Array.new
     for post in @posts_of_trip
@@ -27,7 +24,6 @@ class TripsController < ApplicationController
         previous = post[:date]
       end
     end
-
   end
 
   # GET /trips/new
@@ -47,7 +43,7 @@ class TripsController < ApplicationController
 
     respond_to do |format|
       if @trip.save
-        format.html { redirect_to @trip, notice: 'Trip was successfully created.' }
+        format.html { redirect_to trips_path, notice: 'Trip was successfully created.' }
         format.json { render :show, status: :created, location: @trip }
       else
         format.html { render :new }
@@ -61,7 +57,7 @@ class TripsController < ApplicationController
   def update
     respond_to do |format|
       if @trip.update(trip_params)
-        format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
+        format.html { redirect_to trips_path, notice: 'Trip was successfully updated.' }
         format.json { render :show, status: :ok, location: @trip }
       else
         format.html { render :edit }
