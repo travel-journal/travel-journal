@@ -1,5 +1,11 @@
-<h1>New Post</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Back', trip_path(params[:trip_id]) %>
+<div class="row">
+  <div class="col-md-3 col-md-offset-4">
+    <div class="trip-box">
+      <h1 class="center-heading">New Post</h1>
+      <%= render 'form' %>
+      <div class="center">
+        <%= link_to "\u2190 Back", trip_path(params[:trip_id]) %>
+      </div>
+    </div>
+  </div>
+</div>
