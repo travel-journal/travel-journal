@@ -1,4 +1,6 @@
-Instructions on how to run the application
+== README
+
+Instructions on how to run the application:
 
 
 git clone git@github.com:travel-journal/travel-journal.git
