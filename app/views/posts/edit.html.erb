@@ -2,5 +2,5 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @post %> |
-<%= link_to 'Back', posts_path %>
+<%#= link_to 'Show', @post %>
+<%= link_to 'Back', day_posts_path(@post.trip_id, @post.date) %>

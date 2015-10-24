@@ -1,24 +1,21 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <% @a_post_a_day.to_a %>
-  <% @num_days %>
-
-  <% if !@a_post_a_day.empty? %>
-    <% @i = 0 %>
-    <% @a_post_a_day.each do |p| %>
-      <% @i += 1 %>
-      <strong>Day <%= @i %></strong>
-      <%= link_to(p) do %>
-      <%= p.title %>
-    </br> </br>
+<div class="row">
+  <div class="col-md-3 col-md-offset-4">
+    <div class="trip-details">
+      <h1><%= @trip.title %></h1>
+      <p> <%= @trip.start_date.strftime("%b %d, %Y") %> to <%= @trip.end_date.strftime("%b %d, %Y") %> 
+      <%= link_to '[Edit trip]', edit_trip_path(@trip) %> </p>
+      <h5 class="caption"><%= @trip.about %></h5>
+    </div>
+    <div class="days-container">
+      <% @a_post_a_day.each_with_index do |post, index| %>
+        <div class="trip-box center">
+          <h3><%= link_to "Day " + "#{index + 1}", day_posts_path({:date => post.date, :trip_id => post.trip_id}), :class => "trip-title" %></h3>
+          <h5 class="time"><%= post.date.strftime("%b %d, %Y")%></h5>
+        </div>
       <% end %>
-    <% end %>
-
-  <% end %>
-
-</p>
-
-
-<%= link_to 'Edit', edit_trip_path(@trip) %> |
-<%= link_to 'Back', trips_path %>
+    </div>
+    <div class="center">
+      <%= link_to "\u2190 Back", trips_path %> | <%= link_to "Add post \u2192", new_post_path(@trip.id) %>
+    </div>
+  </div>
+</div>
