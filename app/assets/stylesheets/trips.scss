@@ -29,6 +29,15 @@
   text-align: center;
 }
 
+.trip-title {
+  text-decoration: none;
+  color: #000;
+}
+
+.trip-title:hover {
+  text-decoration: none; 
+}
+
 .my-btn {
   margin-top: 8px;
   background: #9b50ba;

@@ -1,48 +1,53 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Title:</strong>
-  <%= @post.title %>
+  <% if !@posts_of_day.empty? %>
+    <% @posts_of_day.each do |p| %>
+        <p>
+          <strong>Title:</strong>
+          <%= p.title %>
+        </p>
+
+        <%= image_tag p.image_url.to_s %>
+
+        <p>
+          <strong>Trip:</strong>
+          <%= p.trip %>
+        </p>
+
+        <p>
+          <strong>Caption:</strong>
+          <%= p.caption %>
+        </p>
+
+        <p>
+          <strong>Location:</strong>
+          <%= p.location %>
+        </p>
+
+        <p>
+          <strong>Date:</strong>
+          <%= p.date %>
+        </p>
+
+        <p>
+          <strong>Time:</strong>
+          <%= p.time %>
+        </p>
+
+        <p>
+          <strong>Like count:</strong>
+          <%= p.like_count %>
+        </p>
+      <%#= link_to(p.title, day_posts_path({:date => p.date, :trip_id => p.trip_id})) %>
+    </br> </br>
+    <% end %>
+
+  <% end %>
+
+
 </p>
 
-<%= image_tag @post.image_url.to_s %>
 
-<p>
-  <strong>Caption:</strong>
-  <%= @post.caption %>
-</p>
-
-<p>
-  <strong>Location:</strong>
-  <%= @post.location %>
-</p>
-
-<p>
-  <strong>Date:</strong>
-  <%= @post.date %>
-</p>
-
-<p>
-  <strong>Time:</strong>
-  <%= @post.time %>
-</p>
-
-<p>
-  <strong>Like count:</strong>
-  <%= @post.like_count %>
-</p>
-<p>
-  <strong>Comments:</strong>
-  <%@post.comments.each do |comment|%>
-      <p> <%= comment %> </p>
-  <%end%>
-  
-  <p>
-      <%= form_tag('/api/posts/'+@post.id.to_s+'/add_comment', method: 'post') do %>
-          <%= text_area_tag(:comment, 'Add Comment') %><br>
-          <%= submit_tag("Add Comment") %>
-      <%end %>
-  </p>
-</p>
-<%= link_to 'Edit', edit_post_path(@post) %> |
-<%= link_to 'Back', posts_path %>
+<%#= link_to 'Edit', edit_post_path(@post) %> 
+<%= link_to 'Back', trip_path(params[:trip_id]) %>

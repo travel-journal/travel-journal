@@ -21,24 +21,30 @@ Rails.application.routes.draw do
     delete '/api/users', to: 'devise/registrations#destroy'
   end
   
-  # new and edit return html pages with forms
-  # they don't interact with models so they don't get /api prefix
-  scope 'api', except: [:new, :edit] do
 
-
-    resources :trips
-    resources :posts  
-  end
-  
   # built-in index and show routes should be used to get data from database
   # and respond with it
 
+  get '/api/trips', to: 'trips#index', as: 'trips'
+  post '/api/trips', to: 'trips#create'
+  get '/api/trips/:id', to: 'trips#show', as: 'trip'
+  patch '/api/trips/:id', to: 'trips#update'
+  put '/api/trips/:id', to: 'trips#update'
+  delete '/api/trips/:id', to: 'trips#destroy'
+  get '/api/posts', to: 'posts#index', as: 'posts'
+  post '/api/posts', to: 'posts#create'
+  get '/posts/:trip_id/:date', to: 'posts#show', as: 'day_posts'
+  patch '/api/posts/:id', to: 'posts#update'
+  put '/api/posts/:id', to: 'posts#update'
+  delete '/api/posts/:id', to: 'posts#delete'
+
+
+
   get '/trips/new', to: 'trips#new', as: 'new_trip'
   get '/trips/:id/edit', to: 'trips#edit', as: 'edit_trip'
-  get '/posts/new', to: 'posts#new', as: 'new_post'
+
+  get '/trips/:trip_id/posts/new/', to: 'posts#new', as: 'new_post'
   get '/posts/:id/edit', to: 'posts#edit', as: 'edit_post'
-
-
 
   post '/api/posts/:id/like_post' => 'posts#like_post', as: 'like_post'# constraints: {:id => /[^\/]+/}
   post '/api/posts/:id/add_comment' => 'posts#add_comment', as: 'add_comment'
@@ -53,5 +59,6 @@ Rails.application.routes.draw do
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+
 
 end

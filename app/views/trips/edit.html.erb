@@ -1,6 +1,12 @@
-<h1>Editing Trip</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @trip %> |
-<%= link_to 'Back', trips_path %>
+<div class="row">
+  <div class="col-md-3 col-md-offset-4">
+    <div class="trip-box">
+      <h2 class="center-heading">Edit Trip</h2>
+      <%= render 'form' %>
+      <%# link_to 'Show', @trip %>
+      <div class="center">
+        <a href=/api/trips>&#8592; Back</a>
+      </div>
+    </div>
+  </div>
+</div>
