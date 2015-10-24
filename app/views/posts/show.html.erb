@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-md-3 col-md-offset-4">
+    <div class="post-container">
+      <div class="trip-details">
+        <h2><%= @posts_of_day.first.trip.title %> - <%= @posts_of_day.first.date.strftime("%b %d, %Y") %></h2>
+      </div>
+      <% if !@posts_of_day.empty? %>
+        <% @posts_of_day.each do |p| %>
+          <div class="post-box">
+            <h3><%= p.title %></h3>
+            <div class="post-details">
+              <%= p.time.strftime("%I:%M%p") %>, <%= p.location %>
+            </div>
+            <%= image_tag p.image_url.to_s %>
+            <h5><%= p.caption %></h5>
+            <div class="like-count">
+              Likes: <%= p.like_count %>
+              <%= link_to 'Like', like_post_path(p.id), :method => :post%>
+              <%= link_to 'Edit', edit_post_path(p) %> 
+              <%# modify this to be able to click on particular post %>
+              <%#= link_to(p.title, day_posts_path({:date => p.date, :trip_id => p.trip_id})) %>
+            </div>
+            <div>
+              <h3>Comments:</h3>
+              <%p.comments.each do |comment|%>
+                  <p> <%= comment %> </p>
+              <%end%>
+
+              <p>
+              <%= form_tag('/api/posts/'+p.id.to_s+'/add_comment', method: 'post') do %>
+                  <%= text_area_tag(:comment, 'Add Comment') %><br>
+                  <%= submit_tag("Add Comment") %>
+              <%end %>
+              </p>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+      <div class="center">
+        <%= link_to "\u2190 Back", trip_path(params[:trip_id])%>
+      </div>
+    </div>
+  </div>
+</div>

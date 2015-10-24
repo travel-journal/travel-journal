@@ -1,0 +1,25 @@
+// Place all the styles related to the Posts controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.post-box {
+  margin: 20px;
+  padding: 20px;
+  background: #fff;
+  display: block;
+  border-radius: 2px; 
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.post-details {
+  display: block;
+  margin-top: 3px;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+.like-count {
+  display: block;
+  margin-top: 30px;
+}

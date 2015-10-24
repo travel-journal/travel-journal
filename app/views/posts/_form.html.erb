@@ -1,0 +1,54 @@
+<%= form_for(@post) do |f| %>
+    <% if @post.errors.any? %>
+    <div id="error_explanation">
+    <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+    <ul>
+        <% @post.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+    <% end %>
+    </ul>
+</div>
+  <% end %>
+
+<div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+</div>
+<div class="field">
+    <%= f.file_field :image %>
+</div>
+
+<% if false %>
+<%# ---------unnecessary fields-------------- %>
+<div class="field">
+    <%= f.label :trip %><br>
+    <%= f.text_field :trip %>
+</div>
+<div class="field">
+    <%= f.label :like_count %><br>
+    <%= f.number_field :like_count %>
+</div>
+
+<%# ---------end unnecessary fields---------- %>
+<%end%>
+<div class="field">
+    <%= f.label :caption %><br>
+    <%= f.text_area :caption %>
+</div>
+<div class="field">
+    <%= f.label :location %><br>
+    <%= f.text_field :location %>
+</div>
+<div class="field">
+    <%= f.label :date %><br>
+    <%= f.date_select :date %>
+</div>
+<div class="field">
+    <%= f.label :time %><br>
+    <%= f.time_select :time %>
+</div>
+<div class="actions">
+    <%= f.submit %>
+</div>
+<% end %>

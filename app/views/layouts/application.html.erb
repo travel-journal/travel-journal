@@ -1,12 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>TravelJournal</title>
+  <title>Travel Journal</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' %>
+  <%= stylesheet_link_tag    'application', 'https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700' %>
+  <%= stylesheet_link_tag    'application', 'https://fonts.googleapis.com/css?family=Euphoria+Script' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <% if user_signed_in? %>
+        <a class="logo" href="/api/trips">Travel Journal</a>
+      <% else %>
+          <a class="logo" href="/">Travel Journal</a>
+      <% end %>
+    </div>
+  <ul class="nav navbar-nav navbar-right">
+    <% if user_signed_in? %>
+      <li class="nav-link"><a href="/api/trips"><%= current_user.username %></a></li>
+      <li class="nav-link"><%= link_to "Update profile", edit_user_registration_path %></li>
+      <li class="nav-link"><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
+    <% else %>
+      <li class="nav-link"><%= link_to "Sign up", new_user_registration_path %><li>
+      <li class="nav-link"><%= link_to "Sign in", new_user_session_path %></li>
+    <% end %>
+  </ul>
+  </div>
+</nav>
+
+<% flash.each do |name, msg| %>
+  <%= content_tag :div, msg, id: "flash_#{name}", class: "alert alert-info alert-dismissible" %>
+<% end %>
 
 <%= yield %>
 

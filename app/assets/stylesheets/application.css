@@ -13,3 +13,32 @@
  *= require_tree .
  *= require_self
  */
+
+.navbar {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #fff;
+}
+
+.navbar .logo {
+  font-family: 'Euphoria Script';
+  text-decoration: none;
+  font-size: 4em;
+  line-height: 50px;
+  color: #B38FC1;
+}
+
+.navbar .logo:hover {
+  text-decoration: none;
+  color: #B38FC1
+}
+
+.navbar .nav-link {
+  text-transform: uppercase; 
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+body {
+  background-color: #FAFAFA;
+}
