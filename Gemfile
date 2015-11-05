@@ -57,5 +57,16 @@ gem 'fog'
 # Stores s3 key info
 gem 'figaro'
 
+# testing http://everydayrails.com/2012/03/12/testing-series-rspec-setup.html
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+end
 
-
+# testing http://everydayrails.com/2012/03/12/testing-series-rspec-setup.html
+group :test do
+  gem 'faker'
+  gem 'capybara'
+  gem 'guard-rspec'
+  gem 'launchy'
+end
