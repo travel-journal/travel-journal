@@ -25,6 +25,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # For test code coverage
 gem 'simplecov', :require => false, :group => :test
 
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -71,4 +72,5 @@ group :test do
   gem 'capybara'
   gem 'guard-rspec'
   gem 'launchy'
+  gem 'selenium-webdriver'
 end
