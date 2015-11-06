@@ -1,4 +1,5 @@
 Rails.application.routes.draw do 
+  # resources :comments
   root to: "users#root"
   devise_for :users, skip: :all
   # had to manually make these to prefix only some with /api
@@ -48,6 +49,15 @@ Rails.application.routes.draw do
 
   post '/api/posts/:id/like_post' => 'posts#like_post', as: 'like_post'# constraints: {:id => /[^\/]+/}
   post '/api/posts/:id/add_comment' => 'posts#add_comment', as: 'add_comment'
+
+
+  post '/api/posts/:post_id/comments' => 'comments#create'
+  get '/api/posts/:post_id/comments' => 'comments#index', as: 'post_comments'
+  delete '/api/posts/:post_id/comments' => 'comments#destroy'
+  get '/posts/:post_id/comments/new', to: 'comments#new', as: 'new_post_comment'
+  get '/posts/:post_id/comments/:id/edit', to: 'comments#edit', as: 'edit_post_comment'
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

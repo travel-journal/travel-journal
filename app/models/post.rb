@@ -9,6 +9,7 @@ class Post < ActiveRecord::Base
   #  :greater_than_or_equal_to => 0
   #}
 
+  has_many :comments, :dependent => :destroy
   
   belongs_to :user
   belongs_to :trip, :foreign_key => :trip_id
