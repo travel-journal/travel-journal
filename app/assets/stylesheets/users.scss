@@ -2,57 +2,9 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.center-heading {
-  font-weight: 300;
-  text-align: center;
-}
-
-.card-box {
-  padding: 20px;
-  background: #fff;
-  display: block;
-  border-radius: 2px; 
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
-
-.card-box label {
-  margin-top: 10px;
-  font-weight: 300;
-  font-size: 1.1em;
-}
-
-.card-box .field {
-  margin-top: 3px;
-  font-weight: 300;
-  font-size: 1.1em;
-}
-
-.card-box .my-btn {
-  margin-top: 8px;
-  background: #9b50ba;
-  color: white;
-}
-
-.card-box .my-btn:hover {
-  background: #9b59b6;
-  color: white;
-}
-
-.card-box .center {
-  padding-top: 20px;
-  font-size: 1.1em;
-  text-align: center;
-}
-
-.card-box .btn-center {
-  display: block;
-  padding-left: 30px;
-  padding-right: 30px;
-  margin-top: 30px;
-  margin: 0px auto;
-}
-
+//----------------------------------------------------------------------------
+//                          BACKGROUND CONTAINER
+//----------------------------------------------------------------------------
 .bg {
   background-image: 
     linear-gradient(
@@ -70,20 +22,7 @@
   z-index: -1;
 }
 
-.bg .sign-up {
-  position: absolute;
-  top: 50%;
-  left: 45%;
-  transform: translate(-50%, -50%);
-}
-
-.bg .sign-in {
-  position: absolute;
-  top: 50%;
-  left: calc(50% + 20px);
-  transform: translate(-50%, -50%);
-}
-
+//-------------------------------SIGN UP -----------------------------------
 .sign-up {
   background: #B38FC1;
   border: 3px solid #B38FC1;
@@ -95,18 +34,20 @@
   padding: 10px 20px 10px 20px;
 }
 
+.bg .sign-up {
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+}
+
 .sign-up:hover {
   text-decoration: none;
   color: #FFFFFF;
 }
 
-.sign-in:hover {
-  text-decoration: none;
-  color: #B38FC1;
-}
 
-
-/* Sign Up Rectangle: */
+//-------------------------------SIGN IN -----------------------------------
 .sign-in {
   background: rgba(255,255,255, 0);
   border: 3px solid #B38FC1;
@@ -117,3 +58,65 @@
   line-height: 27px;
   padding: 10px 20px 10px 20px;
 }
+
+.bg .sign-in {
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 20px);
+  transform: translate(-50%, -50%);
+}
+
+.sign-in:hover {
+  text-decoration: none;
+  color: #B38FC1;
+}
+
+//----------------------------------------------------------------------------
+//                          CARD CONTAINER
+//----------------------------------------------------------------------------
+.card {
+  padding: 20px;
+  background: #fff;
+  display: block;
+  border-radius: 2px; 
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.card label {
+  margin-top: 10px;
+  font-weight: 300;
+  font-size: 1.1em;
+}
+
+.card .field {
+  margin-top: 3px;
+  font-weight: 300;
+  font-size: 1.1em;
+}
+
+.card .my-btn {
+  margin-top: 8px;
+  background: #9b50ba;
+  color: white;
+}
+
+.card .my-btn:hover {
+  background: #9b59b6;
+  color: white;
+}
+
+.card .center {
+  padding-top: 20px;
+  font-size: 1.1em;
+  text-align: center;
+}
+
+.card .btn-center {
+  display: block;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-top: 30px;
+  margin: 0px auto;
+}
+
