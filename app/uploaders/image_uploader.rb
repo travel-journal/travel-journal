@@ -31,8 +31,15 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def scale(width, height)
   #   # do something
   # end
-
+  def auto_orient
+    manipulate! do |img|
+      img = img.auto_orient
+    end
+  end
+  
   # Create different versions of your uploaded files:
+  process :auto_orient
+
   version :thumb do
     process :resize_to_fill => [50, 50]
   end
