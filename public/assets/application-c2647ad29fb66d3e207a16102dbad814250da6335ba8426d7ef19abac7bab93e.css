@@ -1,0 +1,301 @@
+/* line 5, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/posts.scss */
+.post-box {
+  margin: 20px;
+  padding: 20px;
+  background: #fff;
+  display: block;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+/* line 15, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/posts.scss */
+.post-box h3 {
+  margin-bottom: 5px;
+}
+
+/* line 19, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/posts.scss */
+.post-details {
+  display: block;
+  font-size: 0.9em;
+  /*font-style: italic;*/
+}
+
+/* line 25, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/posts.scss */
+.like-count {
+  display: block;
+  margin-top: 10px;
+}
+
+/* line 30, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/posts.scss */
+.hr-one {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+/* line 35, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/posts.scss */
+.my-btn {
+  margin-top: 8px;
+  background: #9b50ba;
+  color: white;
+}
+
+/* line 41, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/posts.scss */
+.comment-container {
+  margin-top: 15px;
+}
+
+/* line 45, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/posts.scss */
+.areatext {
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+/* line 50, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/posts.scss */
+.user-anon {
+  display: inline;
+  font-weight: bold;
+}
+/* line 1, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/scaffolds.scss */
+body {
+  background-color: #fff;
+  color: #333;
+  font-family: 'open sans', verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* line 10, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/scaffolds.scss */
+p, ol, ul, td {
+  font-family: 'open sans' verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* line 17, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/scaffolds.scss */
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+/* line 23, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/scaffolds.scss */
+a {
+  color: #666;
+}
+
+/* line 28, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/scaffolds.scss */
+div.field, div.actions {
+  margin-bottom: 10px;
+}
+
+/* line 33, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/scaffolds.scss */
+#notice {
+  color: green;
+}
+
+/* line 37, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/scaffolds.scss */
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+/* line 43, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/scaffolds.scss */
+#error_explanation {
+  width: 450px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+/* line 51, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/scaffolds.scss */
+#error_explanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  margin-bottom: 0px;
+  background-color: #c00;
+  color: #fff;
+}
+/* line 62, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/scaffolds.scss */
+#error_explanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
+/* line 6, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/trips.scss */
+.center-heading {
+  font-weight: 300;
+  text-align: center;
+}
+
+/* line 11, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/trips.scss */
+.trip-box {
+  margin: 20px;
+  padding: 20px;
+  background: #fff;
+  display: block;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+/* line 21, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/trips.scss */
+.time {
+  font-style: italic;
+}
+
+/* line 25, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/trips.scss */
+.trip-details {
+  text-align: center;
+}
+
+/* line 29, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/trips.scss */
+.center {
+  padding-top: 20px;
+  font-size: 1.1em;
+  text-align: center;
+}
+
+/* line 35, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/trips.scss */
+.trip-title {
+  text-decoration: none;
+  color: #000;
+}
+
+/* line 40, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/trips.scss */
+.trip-title:hover {
+  text-decoration: none;
+}
+
+/* line 44, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/trips.scss */
+.my-btn {
+  margin-top: 8px;
+  background: #9b50ba;
+  color: white;
+}
+
+/* line 50, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/trips.scss */
+.search-btn {
+  background: #9b50ba;
+  color: white;
+}
+
+/* line 55, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/trips.scss */
+.my-btn:hover {
+  background: #9b59b6;
+  color: white;
+}
+
+/* line 60, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/trips.scss */
+.caption {
+  margin-top: 40px;
+}
+/* line 5, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/users.scss */
+.center-heading {
+  font-weight: 300;
+  text-align: center;
+}
+
+/* line 10, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/users.scss */
+.card-box {
+  padding: 20px;
+  background: #fff;
+  display: block;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+/* line 19, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/users.scss */
+.card-box label {
+  margin-top: 10px;
+  font-weight: 300;
+  font-size: 1.1em;
+}
+
+/* line 25, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/users.scss */
+.card-box .field {
+  margin-top: 3px;
+  font-weight: 300;
+  font-size: 1.1em;
+}
+
+/* line 31, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/users.scss */
+.card-box .my-btn {
+  margin-top: 8px;
+  background: #9b50ba;
+  color: white;
+}
+
+/* line 37, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/users.scss */
+.card-box .my-btn:hover {
+  background: #9b59b6;
+  color: white;
+}
+
+/* line 42, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/users.scss */
+.card-box .center {
+  padding-top: 20px;
+  font-size: 1.1em;
+  text-align: center;
+}
+
+/* line 48, /Users/Dhruv/Dropbox/CS169/travel-journal/app/assets/stylesheets/users.scss */
+.card-box .btn-center {
+  display: block;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-top: 30px;
+  margin: 0px auto;
+}
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+
+
+ */
+
+
+.navbar {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #fff;
+}
+
+.navbar .logo {
+  font-family: 'Euphoria Script';
+  text-decoration: none;
+  font-size: 4em;
+  line-height: 50px;
+  color: #B38FC1;
+}
+
+.navbar .logo:hover {
+  text-decoration: none;
+  color: #B38FC1
+}
+
+.navbar .nav-link {
+  text-transform: uppercase; 
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+body {
+  background-color: #FAFAFA;
+}

@@ -52,3 +52,68 @@
   margin-top: 30px;
   margin: 0px auto;
 }
+
+.bg {
+  background-image: 
+    linear-gradient(
+      rgba(179, 143, 193, 0.9), 
+      rgba(179, 143, 193, 0.35)
+    ), 
+    url('bkg.jpg'); 
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 72px;
+  width: 100vw;
+  height: calc(100vh - 72px);
+  overflow: hidden;
+  z-index: -1;
+}
+
+.bg .sign-up {
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+}
+
+.bg .sign-in {
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 20px);
+  transform: translate(-50%, -50%);
+}
+
+.sign-up {
+  background: #B38FC1;
+  border: 3px solid #B38FC1;
+  border-radius: 2px;
+  text-transform: uppercase;
+  font-size: 20px;
+  color: #FFFFFF;
+  line-height: 27px;
+  padding: 10px 20px 10px 20px;
+}
+
+.sign-up:hover {
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+.sign-in:hover {
+  text-decoration: none;
+  color: #B38FC1;
+}
+
+
+/* Sign Up Rectangle: */
+.sign-in {
+  background: rgba(255,255,255, 0);
+  border: 3px solid #B38FC1;
+  border-radius: 4px;
+  font-size: 20px;
+  text-transform: uppercase;
+  color: #B38FC1;
+  line-height: 27px;
+  padding: 10px 20px 10px 20px;
+}
