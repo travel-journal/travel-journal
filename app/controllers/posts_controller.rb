@@ -33,7 +33,20 @@ class PostsController < ApplicationController
     @post.user_id = current_user.id
     @post.like_count = 0
     @post.trip_id = @@trip_id
+    if !post_params[:image].nil?
+      img = EXIFR::JPEG.new(post_params[:image].path)
+      puts "time!!! #{img.date_time}"
+      @post.date ||= img.date_time
+      @post.time ||= img.date_time
+      if post_params[:location].blank?
+        lat = img.gps.latitude
+        lon = img.gps.longitude
 
+        geo = Geocoder.search("#{lat},#{lon}").first
+        @post.location = geo.address
+      end
+    end
+    
     respond_to do |format|
       if @post.save
         format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' }

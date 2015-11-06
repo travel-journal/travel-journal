@@ -15,7 +15,7 @@
         <div class="trip-container">
           <h3><%= link_to trip.title, trip, :class => "trip-title" %></h3>
           <% unless @posts[trip.id].blank? %>
-            <%= image_tag  @posts[trip.id].image_url(:trip) if @posts[trip.id].image.trip.file.exists? %>
+            <%= image_tag  @posts[trip.id].image_url(:trip) if @posts[trip.id].image? and @posts[trip.id].image.trip.file.exists? %>
           <% end %>
           <p><%= trip.about %></p>
           <p class="time">From <%= trip.start_date.strftime("%B %d, %Y") %> to <%= trip.end_date.strftime("%B %d, %Y") %> </p>

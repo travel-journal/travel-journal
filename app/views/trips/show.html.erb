@@ -9,7 +9,7 @@
     <div class="days-container">
       <% @a_post_a_day.each_with_index do |post, index| %>
         <div class="trip-container">
-          <%= image_tag post.image_url(:day) if post.image.day.file.exists? %>
+          <%= image_tag post.image_url(:day) if post.image? and post.image.day.file.exists? %>
           <h3><%= link_to "Day " + "#{index + 1}", day_posts_path({:date => post.date, :trip_id => post.trip_id}), :class => "trip-title" %></h3>
           <h5 class="time"><%= post.date.strftime("%b %d, %Y")%></h5>
         </div>
