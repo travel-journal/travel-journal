@@ -27,11 +27,11 @@
   </div>
   <div class="field">
     <%= f.label :date %><br>
-    <%= f.date_select :date %>
+    <%= f.date_select :date, :include_blank => true%>
   </div>
   <div class="field">
     <%= f.label :time %><br>
-      <%= f.time_select :time %>
+    <%= f.time_select :time, :include_blank => true, :ignore_date => true %>
   </div>
   <div class="actions">
       <%= f.submit :class => "btn my-btn"  %>

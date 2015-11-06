@@ -57,5 +57,10 @@ gem 'fog'
 # Stores s3 key info
 gem 'figaro'
 
+# For extracting image metadata
+gem 'exifr'
+
+# To get location
+gem 'geocoder'
 
 
