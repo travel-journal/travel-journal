@@ -134,8 +134,41 @@ describe PostsController do
       
     it "redirects to post#index" do
       delete :destroy, id: @post
-      #response.should render_template :index
       response.should redirect_to posts_url
     end
   end
+
+  describe 'POST likes' do
+    before :each do
+      trip = FactoryGirl.create(:trip)  
+      PostsController.class_variable_set :@@trip_id, trip.id
+      @post = FactoryGirl.create(:post, like_count: 0)
+    end
+    
+    it "increases like_count for the post" do
+      @request.env["HTTP_REFERER"] = 'http://test.com/sessions/new'
+
+      post :like_post, id: @post
+      @post.reload
+      @post.like_count.should eq(1)
+    end
+  end
+
+  describe 'POST comments' do
+    before :each do
+      trip = FactoryGirl.create(:trip)  
+      PostsController.class_variable_set :@@trip_id, trip.id
+      @post = FactoryGirl.create(:post)
+    end
+    
+    it "creates a new comment" do
+      @request.env["HTTP_REFERER"] = 'http://test.com/sessions/new'
+
+      post :add_comment, id: @post
+      @post.reload
+      @post.comments.length.should eq(1)
+    end
+  end  
+
+
 end
