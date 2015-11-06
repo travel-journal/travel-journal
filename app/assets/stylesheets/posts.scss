@@ -2,7 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.post-box {
+//----------------------------------------------------------------------------
+//                          POST CONTAINER
+//----------------------------------------------------------------------------
+.post-container {
   margin: 20px;
   padding: 20px;
   background: #fff;
@@ -12,15 +15,22 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
-.post-box h3 {
+.post-container h3 {
   margin-bottom: 5px;
 }
 
-.post-details {
+.post-container .post-details {
   display: block;
   font-size: 0.9em;
-  /*font-style: italic;*/
 }
+
+.post-container img {
+  display:block;
+  padding: 0;
+  margin:auto;
+}
+
+// --------------------------------------------------------------------------
 
 .like-count {
   display: block;
