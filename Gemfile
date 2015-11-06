@@ -22,6 +22,9 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
+# For test code coverage
+gem 'simplecov', :require => false, :group => :test
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -57,5 +60,17 @@ gem 'fog'
 # Stores s3 key info
 gem 'figaro'
 
+# testing http://everydayrails.com/2012/03/12/testing-series-rspec-setup.html
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+end
 
-
+# testing http://everydayrails.com/2012/03/12/testing-series-rspec-setup.html
+group :test do
+  gem 'faker'
+  gem 'capybara'
+  gem 'guard-rspec'
+  gem 'launchy'
+  gem 'selenium-webdriver'
+end
