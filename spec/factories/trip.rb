@@ -7,7 +7,6 @@ FactoryGirl.define do
     f.about { Faker::Hacker.say_something_smart }
     f.start_date { Date.today }
     f.end_date { Date.today }
-
   end
 
 
