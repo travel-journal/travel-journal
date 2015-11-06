@@ -15,7 +15,7 @@
             </div>
 
             <hr class="hr-one">
-            <%= image_tag p.image_url.to_s %>
+            <%= image_tag p.image_url(:post) if p.image.post.file.exists? %>
             <h5><%= p.caption %></h5>
 
             <hr class="hr-one">
