@@ -33,12 +33,13 @@ class PostsController < ApplicationController
     @post.user_id = current_user.id
     @post.like_count = 0
     @post.trip_id = @@trip_id
-    if !post_params[:image].nil?
+    unless post_params[:image].nil?
       img = EXIFR::JPEG.new(post_params[:image].path)
-      puts "time!!! #{img.date_time}"
-      @post.date ||= img.date_time
-      @post.time ||= img.date_time
-      if post_params[:location].blank?
+      unless img.date_time.blank?
+        @post.date ||= img.date_time
+        @post.time ||= img.date_time
+      end
+      if post_params[:location].blank? && !img.gps.blank?
         lat = img.gps.latitude
         lon = img.gps.longitude
 
@@ -133,4 +134,9 @@ class PostsController < ApplicationController
     params.require(:post).permit(:title, :caption, :location, :date, :time, :like_count, :image)
     #params.require(:post).permit(:title, :trip, :caption, :location, :date, :time, :like_count, :image)
   end
+
+  def trip_id
+    @@trip_id
+  end
+  helper_method :trip_id
 end
