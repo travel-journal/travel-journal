@@ -34,17 +34,19 @@ class PostsController < ApplicationController
     @post.like_count = 0
     @post.trip_id = @@trip_id
     unless post_params[:image].nil?
-      img = EXIFR::JPEG.new(post_params[:image].path)
-      unless img.date_time.blank?
-        @post.date ||= img.date_time
-        @post.time ||= img.date_time
-      end
-      if post_params[:location].blank? && !img.gps.blank?
-        lat = img.gps.latitude
-        lon = img.gps.longitude
+      if post_params[:image].content_type == 'image/jpeg'
+        img = EXIFR::JPEG.new(post_params[:image].path)
+        unless img.date_time.blank?
+          @post.date ||= img.date_time
+          @post.time ||= img.date_time
+        end
+        if post_params[:location].blank? && !img.gps.blank?
+          lat = img.gps.latitude
+          lon = img.gps.longitude
 
-        geo = Geocoder.search("#{lat},#{lon}").first
-        @post.location = geo.address
+          geo = Geocoder.search("#{lat},#{lon}").first
+          @post.location = geo.address
+        end
       end
     end
     
