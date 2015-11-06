@@ -1,1 +1,6 @@
-<h1 class="center-heading"> Welcome to Travel Journal!</h1>
+<% if !user_signed_in? %>
+  <div class="bg">
+    <%= link_to "Sign up", new_user_registration_path, :class=> "sign-up" %>
+    <%= link_to "Sign in", new_user_session_path, :class=> "sign-in" %>
+  </div>
+<% end %>
