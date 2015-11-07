@@ -2,6 +2,7 @@ require "spec_helper"
 
 describe "user sign in" do
   it "allows users to sign in after they have registered" do
+  	FactoryGirl.create(:user, username: "Nishu", password:"hellobear")
 
     visit "/users/sign_in"
 
