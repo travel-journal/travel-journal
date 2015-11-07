@@ -5,24 +5,16 @@ FactoryGirl.define do
   factory :post do |f|
     f.title { Faker::Company.catch_phrase }
     f.date { Date.today }
+    f.time { Faker::Time.backward(14, :evening) }
+    f.location { Faker::Address.country }
+    f.caption { Faker::Hacker.say_something_smart }
 
     factory :trip_post do |f|
-    	f.trip_id { Faker::Number.number(2) }
+      f.trip_id { Faker::Number.number(2) }
     end
   end
   
   factory :invalid_post, parent: :post do |f|
-	  f.title nil
-	end
-
-
+    f.title nil
+  end
 end
-
-# FactoryGirl.define do
-#   factory :account do
-#     email { Faker::Internet.email }
-#     password "password"
-#     password_confirmation "password"
-#     confirmed_at Date.today
-#   end
-# end
