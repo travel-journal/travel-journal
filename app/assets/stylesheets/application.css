@@ -57,3 +57,18 @@ body {
   text-align: center;
 }
 
+.my-btn {
+  margin-top: 8px;
+  background: rgb(179, 143, 193);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 2px solid rgb(179, 143, 193);
+  color: #FFFFFF;
+}
+
+.my-btn:hover {
+  text-decoration: none;
+  background: rgb(179, 123, 193);
+  border: 2px solid rgb(179, 123, 193);
+  color: #FFFFFF;
+}
