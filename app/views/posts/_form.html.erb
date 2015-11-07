@@ -10,25 +10,30 @@
     </div>
   <% end %>
 
+  <%= image_tag(@post.image_url(:thumb)) if @post.image? %>
   <div class="field">
     <%= f.label :title %><br>
     <%= f.text_field :title, :class => "form-control" , :placeholder => "Post title"%>
   </div>
   <div class="field">
+    <%= f.file_field :image %>
+    <%= f.hidden_field :image_cache %>
+  </div>
+  <div class="field">
     <%= f.label :caption %><br>
-    <%= f.text_area :caption, :class => "form-control" , :placeholder => "I love mcshih" %>
+    <%= f.text_area :caption, :class => "form-control" , :placeholder => "Post Caption" %>
   </div>
   <div class="field">
     <%= f.label :location %><br>
-    <%= f.text_field :location, :class => "form-control" , :placeholder => "San Francisco"  %>
+    <%= f.text_field :location, :class => "form-control" , :placeholder => "City Name" %>
   </div>
   <div class="field">
     <%= f.label :date %><br>
-    <%= f.date_select :date %>
+    <%= f.date_select :date, :include_blank => true%>
   </div>
   <div class="field">
     <%= f.label :time %><br>
-      <%= f.time_select :time %>
+    <%= f.time_select :time, :include_blank => true, :ignore_date => true %>
   </div>
   <div class="actions">
       <%= f.submit :class => "btn my-btn"  %>

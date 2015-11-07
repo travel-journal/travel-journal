@@ -33,7 +33,23 @@ class PostsController < ApplicationController
     @post.user_id = current_user.id
     @post.like_count = 0
     @post.trip_id = @@trip_id
+    unless post_params[:image].nil?
+      if post_params[:image].content_type == 'image/jpeg'
+        img = EXIFR::JPEG.new(post_params[:image].path)
+        unless img.date_time.blank?
+          @post.date ||= img.date_time
+          @post.time ||= img.date_time
+        end
+        if post_params[:location].blank? && !img.gps.blank?
+          lat = img.gps.latitude
+          lon = img.gps.longitude
 
+          geo = Geocoder.search("#{lat},#{lon}").first
+          @post.location = geo.address
+        end
+      end
+    end
+    
     respond_to do |format|
       if @post.save
         format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' }
@@ -75,36 +91,22 @@ class PostsController < ApplicationController
     end
   end
 
-   def like_post
-        #if params[:id].blank? or params[:id].to_f % 1 != 0
-         #   render json:{"status":-1, "errors":["Invalid smile id"]}
-         #   return
-        #end
-        
-        success = true
-        begin
-            @post = Post.find(params[:id])
-        rescue ActiveRecord::RecordNotFound => e
-            success = false
-            #render json:{"status":-1, "errors":["Invalid smile id"]}
-        end
-        if success
-            @post.like_count += 1
-            if @post.save
-                redirect_to :back
-                #render json:{"status":1}
-            end
-            #else 
-                #errors = []
-                #for i in @smile.errors
-                #    for error in @smile.errors[i]
-                #        errors.append("#{i} " + error)
-                #    end
-                #end
-            #    render json:{"status":-1}
-            #end
-        end
+  def like_post
+    success = true
+    begin
+      @post = Post.find(params[:id])
+    rescue ActiveRecord::RecordNotFound => e
+      success = false
+      #render json:{"status":-1, "errors":["Invalid smile id"]}
     end
+    if success
+      @post.like_count += 1
+      if @post.save
+        redirect_to :back
+        #render json:{"status":1}
+      end
+    end
+  end
 
 
   def add_comment
@@ -116,22 +118,27 @@ class PostsController < ApplicationController
       redirect_to :back
     end
     if success
-        #render params
-        #puts params[:comment]
-        @post.comments.push(params[:comment])
-        @post.save
+      #render params
+      #puts params[:comment]
+      @post.comments.push(params[:comment])
+      @post.save
     end
     redirect_to :back
   end
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_post
+    @post = Post.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def post_params
-      params.require(:post).permit(:title, :caption, :location, :date, :time, :like_count, :image)
-      #params.require(:post).permit(:title, :trip, :caption, :location, :date, :time, :like_count, :image)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def post_params
+    params.require(:post).permit(:title, :caption, :location, :date, :time, :like_count, :image, :image_cache)
+    #params.require(:post).permit(:title, :trip, :caption, :location, :date, :time, :like_count, :image)
+  end
+
+  def trip_id
+    @@trip_id
+  end
+  helper_method :trip_id
 end
