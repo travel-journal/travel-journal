@@ -36,7 +36,7 @@ Rails.application.routes.draw do
   get '/api/trips/:trip_id/posts/:date', to: 'posts#show', as: 'day_posts'
   patch '/api/posts/:id', to: 'posts#update'
   put '/api/posts/:id', to: 'posts#update', as: 'update_post'
-  delete '/api/posts/:id', to: 'posts#delete'
+  delete '/api/posts/:id', to: 'posts#destroy'
 
 
 
