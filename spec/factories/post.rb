@@ -17,15 +17,4 @@ FactoryGirl.define do
   factory :invalid_post, parent: :post do |f|
 	  f.title nil
 	end
-
-
 end
-
-# FactoryGirl.define do
-#   factory :account do
-#     email { Faker::Internet.email }
-#     password "password"
-#     password_confirmation "password"
-#     confirmed_at Date.today
-#   end
-# end
