@@ -51,7 +51,7 @@ end
 gem 'devise'
 
 # For uploading images
-gem 'rmagick'
+gem 'rmagick', :require => false
 gem 'carrierwave'
 
 # For AWS cloud storage
