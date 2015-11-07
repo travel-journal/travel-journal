@@ -9,15 +9,15 @@ require 'carrierwave/orm/activerecord'
 Bundler.require(*Rails.groups)
 
 # Devise and testing
-ActionDispatch::Callbacks.after do      
-  # Reload the factories
-  return unless (Rails.env.development? || Rails.env.test?)
+# ActionDispatch::Callbacks.after do      
+#   # Reload the factories
+#   return unless (Rails.env.development? || Rails.env.test?)
 
-  unless FactoryGirl.factories.blank? # first init will load factories, this should only run on subsequent reloads
-    FactoryGirl.factories.clear
-    FactoryGirl.find_definitions
-  end
-end 
+#   unless FactoryGirl.factories.blank? # first init will load factories, this should only run on subsequent reloads
+#     FactoryGirl.factories.clear
+#     FactoryGirl.find_definitions
+#   end
+# end 
 
 module TravelJournal
   class Application < Rails::Application
@@ -37,15 +37,15 @@ module TravelJournal
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
   
-    config.generators do |g|
-      g.test_framework :rspec,
-        :fixtures => true,
-        :view_specs => false,
-        :helper_specs => false,
-        :routing_specs => false,
-        :controller_specs => true,
-        :request_specs => true
-      g.fixture_replacement :factory_girl, :dir => "spec/factories"
-    end
+    # config.generators do |g|
+    #   g.test_framework :rspec,
+    #     :fixtures => true,
+    #     :view_specs => false,
+    #     :helper_specs => false,
+    #     :routing_specs => false,
+    #     :controller_specs => true,
+    #     :request_specs => true
+    #   g.fixture_replacement :factory_girl, :dir => "spec/factories"
+    # end
   end
 end
