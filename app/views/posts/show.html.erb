@@ -27,18 +27,22 @@
               <%#= link_to(p.title, day_posts_path({:date => p.date, :trip_id => p.trip_id})) %>
             </div>
             <div class="comment-container">
-              <% p.comments.each do |comment|%>
-                <div>
-                  <div class="user-anon">
-                    <%= 'anonymous ' if comment != nil %>
-                  </div>
-                  <%= comment if comment != nil %>
-                </div>
+
+
+              <h2>Comments</h2>
+              <div id="comments">
+                <%= render :partial => p.comments %>
+              </div>
+
+              <%= form_for [p, Comment.new] do |f| %>
+                <p>
+                  <%= f.label :body, "New comment" %><br/>
+                  <%= f.text_area :body %>
+                </p>
+                <p><%= f.submit "Add comment" %></p>
               <% end %>
-              <%= form_tag('/api/posts/'+p.id.to_s+'/add_comment', method: 'post') do %>
-                <textarea name="comment" autocomplete="off" class="form-control areatext" placeholder="New comment"></textarea><br>
-                <%= submit_tag("Submit", :class => "btn my-btn") %>
-              <%end %>
+
+
             </div>
           </div>
         <% end %>
