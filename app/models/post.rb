@@ -1,6 +1,7 @@
 class Post < ActiveRecord::Base
   validates :title, :presence => true
-  validates :date, :presence => true
+  validates :date, :time, :location, :presence => {message: "can't be blank if no image is chosen or if image lacks this information"}, :unless => "image.nil?"
+  validates :caption, :presence => {message: "can't be blank if no image is chosen"}, :if => "image.nil?"
   
   # should initialize to 0 in controller?
   #validates :like_count, :presence => true

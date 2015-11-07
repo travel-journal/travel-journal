@@ -1,10 +1,10 @@
 <div class="row">
-  <div class="col-md-3 col-md-offset-4">
-    <div class="trip-box">
+  <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+    <div class="post-container">
       <h1 class="center-heading">New Post</h1>
       <%= render 'form' %>
       <div class="center">
-        <%= link_to "\u2190 Back", trip_path(params[:trip_id]) %>
+        <%= link_to "\u2190 Back", trip_path(trip_id) %>
       </div>
     </div>
   </div>
