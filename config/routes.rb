@@ -53,9 +53,10 @@ Rails.application.routes.draw do
 
   post '/api/posts/:post_id/comments' => 'comments#create'
   get '/api/posts/:post_id/comments' => 'comments#index', as: 'post_comments'
-  delete '/api/posts/:post_id/comments' => 'comments#destroy'
+  delete '/api/posts/:post_id/comments/:id' => 'comments#destroy', as: 'destroy_comment'
   get '/posts/:post_id/comments/new', to: 'comments#new', as: 'new_post_comment'
-  get '/posts/:post_id/comments/:id/edit', to: 'comments#edit', as: 'edit_post_comment'
+  put '/api/posts/:post_id/comments/:id', to: 'comments#update', as: 'update_comment'
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.
