@@ -84,10 +84,12 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   # DELETE /posts/1.json
   def destroy
+    @t_post = @post
     @post.destroy
     respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
+      format.html { redirect_to trip_path({:id => @t_post.trip_id}), notice: 'Post was successfully destroyed.' }
       format.json { head :no_content }
+      
     end
   end
 
