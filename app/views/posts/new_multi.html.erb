@@ -1,0 +1,13 @@
+<%= form_tag("/posts/upload", multipart: true) do %>
+  
+  <div class="field">
+    <%= label_tag "Default Title" %>
+    <%= text_field_tag "title" %>
+  </div>
+  <div class="field">
+    <%= label_tag "Default Caption" %>
+    <%= text_field_tag "caption" "default caption"%>
+  </div>
+  <%= file_field_tag "photos[]", :accept => 'image/jpeg', :multiple => true%>
+  <%= submit_tag "upload" %>
+<% end %>

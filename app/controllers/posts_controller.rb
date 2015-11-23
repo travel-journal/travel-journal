@@ -22,6 +22,17 @@ class PostsController < ApplicationController
     @@trip_id = params[:trip_id]
   end
 
+  def new_multi
+    @@trip_id = params[:trip_id]
+  end
+
+  def upload
+    if !params[:photos].nil?
+      puts "jihui"
+      puts params[:photos].size
+    end
+  end
+
   # GET /posts/1/edit
   def edit
   end

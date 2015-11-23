@@ -43,7 +43,10 @@ Rails.application.routes.draw do
   get '/trips/new', to: 'trips#new', as: 'new_trip'
   get '/trips/:id/edit', to: 'trips#edit', as: 'edit_trip'
 
-  get '/trips/:trip_id/posts/new/', to: 'posts#new', as: 'new_post'
+  #get '/trips/:trip_id/posts/new/', to: 'posts#new', as: 'new_post'
+  get '/trips/:trip_id/posts/new/', to: 'posts#new_multi', as: 'new_multi_post'
+  post 'posts/upload', to: 'posts#upload', as: 'upload_post'
+
   get '/posts/:id/edit', to: 'posts#edit', as: 'edit_post'
 
   post '/api/posts/:id/like_post' => 'posts#like_post', as: 'like_post'# constraints: {:id => /[^\/]+/}
