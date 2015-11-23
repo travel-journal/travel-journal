@@ -1,7 +1,7 @@
 require "spec_helper"
 require 'faker'
 
-describe "homepage activities" do
+describe "Homepage Activities (Integration Tests)" do
   it "able to get to registration page" do
     visit "/"
     within("nav") do

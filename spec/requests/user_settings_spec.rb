@@ -1,7 +1,7 @@
 require "spec_helper"
 require 'rails_helper'
 
-describe "user settings" do
+describe "User Settings (Integration Tests)" do
 
   before :each do
     FactoryGirl.create(:full_user, username: "Claire", password:"hellobear", first_name: "Nishu", last_name: "Tanay", about: "I am a Tanay Nishu combo")
