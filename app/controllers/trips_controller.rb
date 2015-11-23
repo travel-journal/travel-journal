@@ -9,10 +9,10 @@ class TripsController < ApplicationController
       @trips = Trip.where(:user_id => current_user.id).search(params[:search]).order("start_date DESC")
     else
       @trips = Trip.where(:user_id => current_user.id).order('start_date DESC')
-      @posts = Hash.new
-      @trips.each do |trip|
-        @posts[trip.id] = Post.where(:trip_id => trip.id).limit(1).order("RANDOM()").first
-      end
+    end
+    @posts = Hash.new
+    @trips.each do |trip|
+      @posts[trip.id] = Post.where(:trip_id => trip.id).limit(1).order("RANDOM()").first
     end
   end
 
