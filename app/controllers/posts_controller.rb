@@ -119,7 +119,7 @@ class PostsController < ApplicationController
     end
     if success
       #render params
-      # puts params[:comment]
+      #puts params[:comment]
       @post.comments.push(params[:comment])
       @post.save
     end
