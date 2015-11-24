@@ -19,18 +19,42 @@ class TripsController < ApplicationController
   # GET /trips/1
   # GET /trips/1.json
   def show
-    @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order("date ASC")
+    @partial = params[:view] || "list"
+    
+    @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order("created_at DESC")
 
+    if @partial == "list"
+      previous = nil
+      @a_post_a_day = Array.new
+      for post in @posts_of_trip
+        if previous != post[:date]
+          @a_post_a_day.push(post)
+          previous = post[:date]
+        end
+      end
+    else
+      @unique_locations = Array.new
+      for post in @posts_of_trip
+        result = Geocoder.search(post[:location]).first
+        unless result.nil?
+          location = result.city || result.neighborhood || result.province
+          unless @unique_locations.include? location
+            @unique_locations.push(location)
+          end
+        end
+      end
 
-    previous = nil
-    @a_post_a_day = Array.new
-    for post in @posts_of_trip
-      if previous != post[:date]
-        @a_post_a_day.push(post)
-        previous = post[:date]
+      
+      @pins = Gmaps4rails.build_markers(@unique_locations) do |loc, marker|
+        result = Geocoder.search(loc).first
+        marker.lat result.latitude
+        marker.lng result.longitude
+        marker.title loc
+        loc_link = view_context.link_to "See Posts from #{loc}", day_posts_path({trip_id: @trip.id, location_filter: loc})
+        
+        marker.infowindow "<h4><u>#{loc_link}</u></h4>"
       end
     end
-
   end
 
   # GET /trips/new
@@ -123,6 +147,6 @@ class TripsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def trip_params
-      params.require(:trip).permit(:title, :about, :start_date, :end_date)
+      params.require(:trip).permit(:title, :about, :start_date, :end_date, :view)
     end
 end

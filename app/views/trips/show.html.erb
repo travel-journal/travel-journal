@@ -6,15 +6,11 @@
       <%= link_to '[Edit trip]', edit_trip_path(@trip) %> </p>
       <h5 class="caption"><%= @trip.about %></h5>
     </div>
-    <div class="days-container">
-      <% @a_post_a_day.each_with_index do |post, index| %>
-        <div class="trip-container">
-          <%= image_tag post.image_url(:day) if post.image? and post.image.day.file.exists? %>
-          <h3><%= link_to "Day " + "#{index + 1}", day_posts_path({:date => post.date, :trip_id => post.trip_id}), :class => "trip-title" %></h3>
-          <h5 class="time"><%= post.date.strftime("%b %d, %Y")%></h5>
-        </div>
-      <% end %>
-    </div>
+
+    <%= link_to 'List', trip_path(view: "list") %> | <%= link_to 'Map', trip_path(view: "map") %>
+
+    <%= render @partial %>
+    
     <div class="center">
       <%= link_to "\u2190 Back", trips_path %> | <%= link_to "Add post \u2192", new_post_path(@trip.id) %>
     </div>
