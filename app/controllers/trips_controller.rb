@@ -19,7 +19,7 @@ class TripsController < ApplicationController
   # GET /trips/1
   # GET /trips/1.json
   def show
-    @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order("created_at DESC")
+    @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order("date ASC")
 
 
     previous = nil
@@ -62,7 +62,39 @@ class TripsController < ApplicationController
   # PATCH/PUT /trips/1
   # PATCH/PUT /trips/1.json
   def update
+
     respond_to do |format|
+
+    post_start_date = Post.where(:trip_id => params[:id]).order('date ASC').limit(1).pluck(:date)
+    post_end_date = Post.where(:trip_id => params[:id]).order('date DESC').limit(1).pluck(:date)
+
+    s_year = trip_params['''start_date(1i)'''].to_s
+    s_month = trip_params['''start_date(2i)'''].to_s 
+    s_day = trip_params['''start_date(3i)'''].to_s 
+    s_date = s_year + '-' + s_month + '-' + s_day
+
+    e_year = trip_params['''end_date(1i)'''].to_s
+    e_month = trip_params['''end_date(2i)'''].to_s 
+    e_day = trip_params['''end_date(3i)'''].to_s 
+    e_date = e_year + '-' + e_month + '-' + e_day
+ 
+
+      if Date.parse(s_date) > Date.parse(post_start_date.to_s)
+        format.html { render :edit }
+        @trip.errors.add(:end_date, 'not a valid start date')
+        format.json { render json: @trip.errors, status: :unprocessable_entity }
+
+      end
+
+      if Date.parse(e_date) < Date.parse(post_end_date.to_s) 
+          format.html { render :edit }
+          @trip.errors.add(:end_date, 'not a valid end date')
+          format.json { render json: @trip.errors, status: :unprocessable_entity }
+
+      end
+
+      # @trips.errors.messages.delete(:end_date, :start_date)
+
       if @trip.update(trip_params)
         format.html { redirect_to trips_path, notice: 'Trip was successfully updated.' }
         format.json { render :show, status: :ok, location: @trip }

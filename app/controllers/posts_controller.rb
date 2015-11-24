@@ -49,6 +49,25 @@ class PostsController < ApplicationController
         end
       end
     end
+
+    trip = Trip.find_by(id: @@trip_id)
+    start_date = Trip.where(:id => @@trip_id).pluck(:start_date)
+    end_date = Trip.where(:id => @@trip_id).pluck(:end_date)
+
+
+    # If new post's date is earlier than trip's start date
+    if Date.parse(@post.date.to_s) < Date.parse(start_date.to_s)
+      trip.start_date = @post.date
+      trip.save  
+
+    # If new post's date is later than trip's end date
+    elsif Date.parse(@post.date.to_s) > Date.parse(end_date.to_s)
+      trip.end_date = @post.date
+      trip.save
+    end
+
+    @trips = Trip.where(:user_id => current_user.id).order('start_date DESC')
+
     
     respond_to do |format|
       if @post.save

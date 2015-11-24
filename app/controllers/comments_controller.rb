@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
 	def create
     @post = Post.find(params[:post_id])
     @comment = @post.comments.create(comment_params)
-    # @ecomment.username = current_user.name
+    # @comment.username = current_user.name
     redirect_to :back
 	end
 
