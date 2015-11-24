@@ -27,10 +27,8 @@ class PostsController < ApplicationController
   end
 
   def upload
-    uploader = ImageUploader.new
     @post_array = []
     for num in 0..params[:photos].size
-      puts params[:caption]
       @post = Post.new({
                         :user_id => current_user.id,
                         :title => params[:title],
@@ -61,15 +59,18 @@ class PostsController < ApplicationController
   end
 
   def create_multi
+    puts 'In the create multi path'
     @post = Post.new(post_params)
      respond_to do |format|
       if @post.save
-        format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' }
+        puts 'SUCCESS SUCCESS'
+        #format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' }
         # to display the new post after creating it
-        #format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        #format.json { render :show, status: :created, location: @post }
+        format.html { redirect_to @post, notice: 'Post was successfully created.' }
+        format.json { render :show, status: :created, location: @post }
 
       else
+        puts 'ERROR ERROR'
         format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end

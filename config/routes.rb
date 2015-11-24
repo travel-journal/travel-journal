@@ -1,6 +1,7 @@
 Rails.application.routes.draw do 
   root to: "users#root"
   devise_for :users, skip: :all
+
   # had to manually make these to prefix only some with /api
   devise_scope :user do
     get '/users/sign_in', to: 'devise/sessions#new', as: 'new_user_session'
@@ -19,50 +20,40 @@ Rails.application.routes.draw do
     put '/api/users', to: 'devise/registrations#update', as: 'update_user_registration'
     delete '/api/users', to: 'devise/registrations#destroy'
   end
-  
+
 
   # built-in index and show routes should be used to get data from database
   # and respond with it
 
+  # Trip routes
   get '/api/trips', to: 'trips#index', as: 'trips'
   post '/api/trips', to: 'trips#create'
   get '/api/trips/:id', to: 'trips#show', as: 'trip'
   patch '/api/trips/:id', to: 'trips#update'
   put '/api/trips/:id', to: 'trips#update'
   delete '/api/trips/:id', to: 'trips#destroy'
+  get '/trips/new', to: 'trips#new', as: 'new_trip'
+  get '/trips/:id/edit', to: 'trips#edit', as: 'edit_trip'
+
+
+  # Post Routes
   get '/api/posts', to: 'posts#index', as: 'posts'
-  post '/api/posts', to: 'posts#create'
+  #post '/api/posts', to: 'posts#create'
   get '/api/posts/:id', to: 'posts#show', as: 'post'  
   get '/api/trips/:trip_id/posts/:date', to: 'posts#show', as: 'day_posts'
   patch '/api/posts/:id', to: 'posts#update'
   put '/api/posts/:id', to: 'posts#update', as: 'update_post'
   delete '/api/posts/:id', to: 'posts#destroy'
-
-
-  get '/trips/new', to: 'trips#new', as: 'new_trip'
-  get '/trips/:id/edit', to: 'trips#edit', as: 'edit_trip'
-
   #get '/trips/:trip_id/posts/new/', to: 'posts#new', as: 'new_post'
-  #get '/trips/:trip_id/posts/new/', to: 'posts#new_multi', as: 'new_multi_post'
+  get '/trips/:trip_id/posts/new/', to: 'posts#new_multi', as: 'new_multi_post'
   post 'posts/upload', to: 'posts#upload', as: 'upload_post'
-
-  post '/api/posts', to: 'posts#create_multi', as: 'new_multi_post'
-
+  post '/api/posts', to: 'posts#create_multi', as: 'create_multi_post'
   get '/posts/:id/edit', to: 'posts#edit', as: 'edit_post'
 
+  # Like post
   post '/api/posts/:id/like_post' => 'posts#like_post', as: 'like_post'# constraints: {:id => /[^\/]+/}
+
+  # Add comment
   post '/api/posts/:id/add_comment' => 'posts#add_comment', as: 'add_comment'
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
-
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
 
 end

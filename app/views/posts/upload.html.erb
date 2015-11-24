@@ -24,7 +24,7 @@
           <%= f.label :location %><br>
           <%= f.text_area :location, :class => "form-control" , :value => @post_array[0].location %>
         </div>
-        <%= link_to "Submit", new_multi_post_path(@post_array[0])%>
+        <%= link_to "Submit", :action => :create_multi, :user_id => current_user.id  %>
       <% end %>
     </div>
   </div>
