@@ -7,15 +7,6 @@ class Trip < ActiveRecord::Base
     validate :end_after_start
     validates :start_date, :end_date, :presence => true
 
-    validate :check_for_errors
-    private
-    def check_for_errors
-      if !errors.nil?
-        errors.add(:start_date, "Start date must be before the oldest post")
-        errors.add(:end_date, "End date must be later than the most recent post")
-      end
-    end
-
     private
     def end_after_start
       return if end_date.blank? || start_date.blank?

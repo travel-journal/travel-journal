@@ -83,14 +83,17 @@ class TripsController < ApplicationController
         format.html { render :edit }
         @trip.errors.add(:end_date, 'not a valid start date')
         format.json { render json: @trip.errors, status: :unprocessable_entity }
+
       end
 
       if Date.parse(e_date) < Date.parse(post_end_date.to_s) 
           format.html { render :edit }
           @trip.errors.add(:end_date, 'not a valid end date')
           format.json { render json: @trip.errors, status: :unprocessable_entity }
+
       end
 
+      # @trips.errors.messages.delete(:end_date, :start_date)
 
       if @trip.update(trip_params)
         format.html { redirect_to trips_path, notice: 'Trip was successfully updated.' }
