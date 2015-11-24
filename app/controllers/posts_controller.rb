@@ -27,15 +27,55 @@ class PostsController < ApplicationController
   end
 
   def upload
-    if !params[:photos].nil?
-      puts "jihui"
-      puts params[:photos].size
+    uploader = ImageUploader.new
+    @post_array = []
+    for num in 0..params[:photos].size
+      puts params[:caption]
+      @post = Post.new({
+                        :user_id => current_user.id,
+                        :title => params[:title],
+                        :caption => params[:caption],
+                        :like_count => 0, 
+                        :trip_id => @@trip_id,
+                        :image => params[:photos][num]
+                      })
+      if @post.image.content_type == 'image/jpeg'
+        img = EXIFR::JPEG.new(@post.image.path)
+        unless img.date_time.blank?
+          @post.date ||= img.date_time
+          @post.time ||= img.date_time
+        end
+        if params[:location].blank? && !img.gps.blank?
+          lat = img.gps.latitude
+          lon = img.gps.longitude
+          geo = Geocoder.search("#{lat},#{lon}").first
+          @post.location = geo.address
+        end
+      end
+      @post_array[num] = @post
     end
   end
 
   # GET /posts/1/edit
   def edit
   end
+
+  def create_multi
+    @post = Post.new(post_params)
+     respond_to do |format|
+      if @post.save
+        format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' }
+        # to display the new post after creating it
+        #format.html { redirect_to @post, notice: 'Post was successfully created.' }
+        #format.json { render :show, status: :created, location: @post }
+
+      else
+        format.html { render :new }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 
   # POST /posts
   # POST /posts.json

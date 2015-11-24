@@ -6,7 +6,7 @@
   </div>
   <div class="field">
     <%= label_tag "Default Caption" %>
-    <%= text_field_tag "caption" "default caption"%>
+    <%= text_field_tag "caption" %>
   </div>
   <%= file_field_tag "photos[]", :accept => 'image/jpeg', :multiple => true%>
   <%= submit_tag "upload" %>
