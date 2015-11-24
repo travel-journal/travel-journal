@@ -12,6 +12,7 @@
               <%= p.time.strftime("%I:%M%p") if p.time != '' %>
               <%= ', ' + p.location if p.location != '' %>
               <%= link_to '[Edit]', edit_post_path(p) %> 
+              <%= link_to '[Delete]', p, method: :delete, data: { confirm: 'Are you sure?' } %>
             </div>
 
             <hr class="hr-one">
