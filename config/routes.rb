@@ -55,7 +55,6 @@ Rails.application.routes.draw do
   post '/api/posts/:id/like_post' => 'posts#like_post', as: 'like_post'# constraints: {:id => /[^\/]+/}
   post '/api/posts/:id/add_comment' => 'posts#add_comment', as: 'add_comment'
 
-
   post '/api/posts/:post_id/comments' => 'comments#create'
   get '/api/posts/:post_id/comments' => 'comments#index', as: 'post_comments'
   delete '/api/posts/:post_id/comments/:id' => 'comments#destroy', as: 'destroy_comment'
