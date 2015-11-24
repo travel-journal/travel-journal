@@ -13,7 +13,24 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
-    @posts_of_day = Post.where(:trip_id => params[:trip_id], :user_id => current_user.id, :date => params[:date]).order("time DESC")
+    @posts_of_day = Array.new
+    if params[:location].nil? 
+      @posts_of_day = Post.where(:trip_id => params[:trip_id], :user_id => current_user.id, :date => params[:date]).order("time DESC")
+    else 
+      # get posts from that city
+      @unique_locations = Hash.new
+      for post in Post.where(:trip_id => params[:trip_id], :user_id => current_user.id).order("time DESC")
+        result = Geocoder.search(post[:location]).first
+        location = result.city || result.locality || result.neighborhood
+        unless @unique_locations.include? location
+          @unique_locations[location] = Array.new
+        end
+          @unique_locations[location].push(post)
+      end
+      @posts_of_day = @unique_locations[params[:location]]
+
+    end
+
   end
 
   # GET /posts/new
@@ -154,7 +171,7 @@ class PostsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def post_params
-    params.require(:post).permit(:title, :caption, :location, :date, :time, :like_count, :image, :image_cache)
+    params.require(:post).permit(:title, :caption, :location, :date, :time, :like_count, :image, :image_cache, :location)
     #params.require(:post).permit(:title, :trip, :caption, :location, :date, :time, :like_count, :image)
   end
 
