@@ -50,26 +50,18 @@ class PostsController < ApplicationController
       end
     end
 
-    puts " HELLLO!!!!!!!!!! "
     trip = Trip.find_by(id: @@trip_id)
     start_date = Trip.where(:id => @@trip_id).pluck(:start_date)
     end_date = Trip.where(:id => @@trip_id).pluck(:end_date)
-    puts @post.date.class
-    puts start_date
-    puts end_date
-    puts start_date.to_s
-    puts Date.parse(start_date.to_s)
-    puts Date.parse(end_date.to_s)
+
 
     # If new post's date is earlier than trip's start date
     if Date.parse(@post.date.to_s) < Date.parse(start_date.to_s)
-      puts 'start date is going to change'
       trip.start_date = @post.date
       trip.save  
 
     # If new post's date is later than trip's end date
     elsif Date.parse(@post.date.to_s) > Date.parse(end_date.to_s)
-      puts 'end date is going to change'
       trip.end_date = @post.date
       trip.save
     end
