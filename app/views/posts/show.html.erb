@@ -1,10 +1,10 @@
 <div class="row">
   <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
     <div class="posts">
-      <div class="trip-details">
-        <h2><%= @posts_of_day.first.trip.title %> - <%= @posts_of_day.first.date.strftime("%b %d, %Y") %></h2>              
-      </div>
       <% if !@posts_of_day.empty? %>
+        <div class="trip-details">
+          <h2><%= @posts_of_day.first.trip.title %> - <%= @posts_of_day.first.date.strftime("%b %d, %Y") %></h2>              
+        </div>
         <% @posts_of_day.each do |p| %>
           <div class="post-container">
             <h3><%= p.title %></h3>
