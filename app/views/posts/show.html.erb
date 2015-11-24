@@ -1,10 +1,10 @@
 <div class="row">
   <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
     <div class="posts">
-      <div class="trip-details">
-        <h2><%= @posts_of_day.first.trip.title %> - <%= @posts_of_day.first.date.strftime("%b %d, %Y") %></h2>              
-      </div>
       <% if !@posts_of_day.empty? %>
+        <div class="trip-details">
+          <h2><%= @posts_of_day.first.trip.title %> - <%= @posts_of_day.first.date.strftime("%b %d, %Y") %></h2>              
+        </div>
         <% @posts_of_day.each do |p| %>
           <div class="post-container">
             <h3><%= p.title %></h3>
@@ -12,6 +12,7 @@
               <%= p.time.strftime("%I:%M%p") if p.time != '' %>
               <%= ', ' + p.location if p.location != '' %>
               <%= link_to '[Edit]', edit_post_path(p) %> 
+              <%= link_to '[Delete]', p, method: :delete, data: { confirm: 'Are you sure?' } %>
             </div>
 
             <hr class="hr-one">
@@ -27,18 +28,22 @@
               <%#= link_to(p.title, day_posts_path({:date => p.date, :trip_id => p.trip_id})) %>
             </div>
             <div class="comment-container">
-              <% p.comments.each do |comment|%>
-                <div>
-                  <div class="user-anon">
-                    <%= 'anonymous ' if comment != nil %>
-                  </div>
-                  <%= comment if comment != nil %>
-                </div>
+
+
+              <h2>Comments</h2>
+              <div id="comments">
+                <%= render :partial => p.comments %>
+              </div>
+
+              <%= form_for [p, Comment.new] do |f| %>
+                <p>
+                  <%= f.label :body, "New comment" %><br/>
+                  <%= f.text_area :body %>
+                </p>
+                <p><%= f.submit "Add comment" %></p>
               <% end %>
-              <%= form_tag('/api/posts/'+p.id.to_s+'/add_comment', method: 'post') do %>
-                <textarea name="comment" autocomplete="off" class="form-control areatext" placeholder="New comment"></textarea><br>
-                <%= submit_tag("Submit", :class => "btn my-btn") %>
-              <%end %>
+
+
             </div>
           </div>
         <% end %>

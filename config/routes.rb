@@ -1,4 +1,5 @@
 Rails.application.routes.draw do 
+  # resources :comments
   root to: "users#root"
   devise_for :users, skip: :all
 
@@ -40,7 +41,7 @@ Rails.application.routes.draw do
   get '/api/posts', to: 'posts#index', as: 'posts'
   #post '/api/posts', to: 'posts#create'
   get '/api/posts/:id', to: 'posts#show', as: 'post'  
-  get '/api/trips/:trip_id/posts/:date', to: 'posts#show', as: 'day_posts'
+  get '/api/trips/:trip_id/posts', to: 'posts#show', as: 'day_posts'
   patch '/api/posts/:id', to: 'posts#update'
   put '/api/posts/:id', to: 'posts#update', as: 'update_post'
   delete '/api/posts/:id', to: 'posts#destroy'
@@ -52,8 +53,13 @@ Rails.application.routes.draw do
 
   # Like post
   post '/api/posts/:id/like_post' => 'posts#like_post', as: 'like_post'# constraints: {:id => /[^\/]+/}
-
-  # Add comment
   post '/api/posts/:id/add_comment' => 'posts#add_comment', as: 'add_comment'
+
+
+  post '/api/posts/:post_id/comments' => 'comments#create'
+  get '/api/posts/:post_id/comments' => 'comments#index', as: 'post_comments'
+  delete '/api/posts/:post_id/comments/:id' => 'comments#destroy', as: 'destroy_comment'
+  get '/posts/:post_id/comments/new', to: 'comments#new', as: 'new_post_comment'
+  put '/api/posts/:post_id/comments/:id', to: 'comments#update', as: 'update_comment'
 
 end

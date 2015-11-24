@@ -13,7 +13,25 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
-    @posts_of_day = Post.where(:trip_id => params[:trip_id], :user_id => current_user.id, :date => params[:date]).order("time DESC")
+    @posts_of_day = Array.new
+    if params[:location_filter].nil? 
+      @posts_of_day = Post.where(:trip_id => params[:trip_id], :user_id => current_user.id, :date => params[:date]).order("time DESC")
+    else 
+      # get posts from that city
+      @unique_locations = Hash.new
+      for post in Post.where(:trip_id => params[:trip_id], :user_id => current_user.id).order("time DESC")
+        result = Geocoder.search(post[:location]).first
+        unless result.nil?
+          location = result.city || result.neighborhood || result.province
+          unless @unique_locations.key? location
+            @unique_locations[location] = Array.new
+          end
+          @unique_locations[location].push(post)
+        end
+      end
+      @posts_of_day = @unique_locations[params[:location_filter]]
+    end
+
   end
 
   # GET /posts/new
@@ -101,6 +119,7 @@ class PostsController < ApplicationController
         end
       end
     end
+
     
     respond_to do |format|
       if @post.save
@@ -109,11 +128,31 @@ class PostsController < ApplicationController
         #format.html { redirect_to @post, notice: 'Post was successfully created.' }
         #format.json { render :show, status: :created, location: @post }
 
+        trip = Trip.find_by(id: @@trip_id)
+        start_date = Trip.where(:id => @@trip_id).pluck(:start_date)
+        end_date = Trip.where(:id => @@trip_id).pluck(:end_date)
+
+
+        # If new post's date is earlier than trip's start date
+        if Date.parse(@post.date.to_s) < Date.parse(start_date.to_s)
+          trip.start_date = @post.date
+          trip.save  
+
+        # If new post's date is later than trip's end date
+        elsif Date.parse(@post.date.to_s) > Date.parse(end_date.to_s)
+          trip.end_date = @post.date
+          trip.save
+        end
+
+        @trips = Trip.where(:user_id => current_user.id).order('start_date DESC')
       else
         format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
+
+
+
   end
 
   # PATCH/PUT /posts/1
@@ -121,7 +160,7 @@ class PostsController < ApplicationController
   def update
     respond_to do |format|
       if @post.update(post_params)
-        format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' }
+        format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully updated.' }
 
         #format.html { redirect_to @post, notice: 'Post was successfully updated.' }
         # to display the post after updating it
@@ -136,10 +175,12 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   # DELETE /posts/1.json
   def destroy
+    @t_post = @post
     @post.destroy
     respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
+      format.html { redirect_to trip_path({:id => @t_post.trip_id}), notice: 'Post was successfully destroyed.' }
       format.json { head :no_content }
+      
     end
   end
 
@@ -185,7 +226,7 @@ class PostsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def post_params
-    params.require(:post).permit(:title, :caption, :location, :date, :time, :like_count, :image, :image_cache)
+    params.require(:post).permit(:title, :caption, :location, :date, :time, :like_count, :image, :image_cache, :location_filter)
     #params.require(:post).permit(:title, :trip, :caption, :location, :date, :time, :like_count, :image)
   end
 

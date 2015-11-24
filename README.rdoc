@@ -1,6 +1,6 @@
 == README
 
-Instructions on how to run the application:
+=== Instructions on how to run the application (first time):
 
 
 git clone git@github.com:travel-journal/travel-journal.git
@@ -9,7 +9,11 @@ brew install imagemagick
 
 bundle install
 
-(add application.yml to config directory)
+add application.yml to config directory (included in email)
+
+start postgres server
+
+rake db:create
 
 rake db:migrate:redo VERSION=20151015080117
 
@@ -18,3 +22,25 @@ rake db:migrate
 rails server
 
 open localhost:3000 in your browser
+
+=== Instructions if you have ITER1:
+
+
+git pull origin ITER2
+
+bundle install
+
+rake db:migrate
+
+rails server
+
+open localhost:3000 in your browser
+
+
+=== Instructions on how to run tests (after app is set up):
+
+make sure you have Firefox installed (<tt>brew cask install --appdir="/Applications" firefox</tt>)
+
+make sure rails and postgres servers are running
+
+bundle exec rspec

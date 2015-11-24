@@ -65,6 +65,8 @@ gem 'exifr'
 
 # To get location
 gem 'geocoder'
+gem 'gmaps4rails'
+gem 'underscore-rails'
 
 # testing http://everydayrails.com/2012/03/12/testing-series-rspec-setup.html
 group :development, :test do
