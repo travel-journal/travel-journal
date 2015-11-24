@@ -33,24 +33,24 @@ class TripsController < ApplicationController
         end
       end
     else
-      @unique_locations = Hash.new
-
+      @unique_locations = Array.new
       for post in @posts_of_trip
         result = Geocoder.search(post[:location]).first
-        location = result.city || result.locality || result.neighborhood
-        unless @unique_locations.include? location
-          @unique_locations[location] = Array.new
+        unless result.nil?
+          location = result.city || result.neighborhood || result.province
+          unless @unique_locations.include? location
+            @unique_locations.push(location)
+          end
         end
-          @unique_locations[location].push(post)
       end
 
       
-      @pins = Gmaps4rails.build_markers(@unique_locations.keys) do |loc, marker|
+      @pins = Gmaps4rails.build_markers(@unique_locations) do |loc, marker|
         result = Geocoder.search(loc).first
         marker.lat result.latitude
         marker.lng result.longitude
         marker.title loc
-        loc_link = view_context.link_to "See Posts from #{loc}", day_posts_path({trip_id: @trip.id, location: loc})
+        loc_link = view_context.link_to "See Posts from #{loc}", day_posts_path({trip_id: @trip.id, location_filter: loc})
         
         marker.infowindow "<h4><u>#{loc_link}</u></h4>"
       end
