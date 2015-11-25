@@ -14,9 +14,7 @@
       <h5 class="caption"><%= @trip.about %></h5>
     </div>
 
-    <div class="center">
-      <%= link_to 'List', trip_path(view: "list") %> | <%= link_to 'Map', trip_path(view: "map") %>
-    </div>
+    <%= link_to 'List', trip_path(view: "list") %> | <%= link_to 'Map', trip_path(view: "map") %> | Sort by: <%= link_to 'Morning', trip_path(view: "morning") %> | <%= link_to 'Afternoon', trip_path(view: "afternoon") %> | <%= link_to 'Evening', trip_path(view: "evening") %>
 
     <%= render @partial %>
     

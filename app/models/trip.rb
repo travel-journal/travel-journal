@@ -17,6 +17,6 @@ class Trip < ActiveRecord::Base
      end
 
     def self.search(search)
-      where("title LIKE ? OR about LIKE ?", "%#{search}%", "%#{search}%")
+      where("title ILIKE ? OR about ILIKE ?", "%#{search}%", "%#{search}%")
 	end
 end

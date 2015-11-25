@@ -11,6 +11,5 @@ FactoryGirl.define do
 	f.first_name "first"
 	f.last_name "last"
 	f.about "About Me!"
-	f.email "hello@world.com"
   end
 end
