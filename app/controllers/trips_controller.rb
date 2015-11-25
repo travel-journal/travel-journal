@@ -89,32 +89,37 @@ class TripsController < ApplicationController
 
     respond_to do |format|
 
-    post_start_date = Post.where(:trip_id => params[:id]).order('date ASC').limit(1).pluck(:date)
-    post_end_date = Post.where(:trip_id => params[:id]).order('date DESC').limit(1).pluck(:date)
+    post_exists = Post.where(:trip_id => params[:id])
+    
+    if !post_exists.empty?
 
-    s_year = trip_params['''start_date(1i)'''].to_s
-    s_month = trip_params['''start_date(2i)'''].to_s 
-    s_day = trip_params['''start_date(3i)'''].to_s 
-    s_date = s_year + '-' + s_month + '-' + s_day
+      post_start_date = Post.where(:trip_id => params[:id]).order('date ASC').limit(1).pluck(:date)
+      post_end_date = Post.where(:trip_id => params[:id]).order('date DESC').limit(1).pluck(:date)
 
-    e_year = trip_params['''end_date(1i)'''].to_s
-    e_month = trip_params['''end_date(2i)'''].to_s 
-    e_day = trip_params['''end_date(3i)'''].to_s 
-    e_date = e_year + '-' + e_month + '-' + e_day
- 
+      s_year = trip_params['''start_date(1i)'''].to_s
+      s_month = trip_params['''start_date(2i)'''].to_s 
+      s_day = trip_params['''start_date(3i)'''].to_s 
+      s_date = s_year + '-' + s_month + '-' + s_day
 
-      if Date.parse(s_date) > Date.parse(post_start_date.to_s)
-        format.html { render :edit }
-        @trip.errors.add(:end_date, 'not a valid start date')
-        format.json { render json: @trip.errors, status: :unprocessable_entity }
+      e_year = trip_params['''end_date(1i)'''].to_s
+      e_month = trip_params['''end_date(2i)'''].to_s 
+      e_day = trip_params['''end_date(3i)'''].to_s 
+      e_date = e_year + '-' + e_month + '-' + e_day
+   
 
-      end
-
-      if Date.parse(e_date) < Date.parse(post_end_date.to_s) 
+        if Date.parse(s_date) > Date.parse(post_start_date.to_s)
           format.html { render :edit }
-          @trip.errors.add(:end_date, 'not a valid end date')
+          #@trip.errors.add(:end_date, 'not a valid start date')
           format.json { render json: @trip.errors, status: :unprocessable_entity }
 
+        end
+
+        if Date.parse(e_date) < Date.parse(post_end_date.to_s) 
+            format.html { render :edit }
+            #@trip.errors.add(:end_date, 'not a valid end date')
+            format.json { render json: @trip.errors, status: :unprocessable_entity }
+
+        end
       end
 
       # @trips.errors.messages.delete(:end_date, :start_date)
