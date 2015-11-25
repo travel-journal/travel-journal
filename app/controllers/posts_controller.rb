@@ -4,6 +4,11 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:edit, :update, :destroy]
   before_filter :authenticate_user!
   @@trip_id = nil
+  @@default_caption = nil
+  @@default_title = nil
+  @@uploads = []
+  @@index = nil
+
   # GET /posts
   # GET /posts.json
   def index
@@ -31,55 +36,69 @@ class PostsController < ApplicationController
       end
       @posts_of_day = @unique_locations[params[:location_filter]]
     end
-
   end
 
-  # GET /posts/new
   def new
-    @post = Post.new
     @@trip_id = params[:trip_id]
+
+    puts "---------"
+    puts "New post for " + @@trip_id
+    #puts "Uploads are of length " + @@uploads.size
+    #puts "The caption is " + @@default_caption
+    puts "---------"
   end
 
-  def new_multi
-    puts "in new multi"
-    @@trip_id = params[:trip_id]
-    puts @@trip_id
-  end
+  def extract(post)
+    # Extract medata from first post
+    puts "-----------------"
+    puts "Extracting metadata from a post"
 
-  def upload
-    @photos= params[:photos]
-    @deftitle = params[:title]
-    @defcaption = params[:caption]
-    @index = 0
-    @trip_id = @@trip_id
-    @post = Post.new({
-      :title => params[:title],
-      :caption => params[:caption],
-      :image => params[:photos][@index]
-    })
-    if @post.image.content_type == 'image/jpeg'
-      puts "processing image"
-      img = EXIFR::JPEG.new(@post.image.path)
+    if post.image.content_type == 'image/jpeg'
+      img = EXIFR::JPEG.new(post.image.path)
       unless img.date_time.blank?
-        puts "date, time"
-        @post.date ||= img.date_time
-        @post.time ||= img.date_time
-        puts @post.date
-        puts @post.time
+        post.date ||= img.date_time
+        post.time ||= img.date_time
+        puts "Post was made on " + post.time.to_s
+        puts "-----------------"
       end
-      if params[:location].blank? && !img.gps.blank?
+      if !img.gps.blank?
         lat = img.gps.latitude
         lon = img.gps.longitude
         geo = Geocoder.search("#{lat},#{lon}").first
-        @post.location = geo.address
+        post.location = geo.address
       end
+      return post
     end
+  end
+      
 
+  def verify
+    @@uploads = params[:photos]
+    @@default_title = params[:title]
+    @@default_caption = params[:caption]
+    @@index = 0
+
+    puts "---------"
+    puts "Verifying photos"
+    puts "Uploads are of length " + @@uploads.size.to_s
+    puts "The title is " + @@default_title
+    puts "The caption is " + @@default_caption
+    puts "---------"
+
+    # Make first image into a post
+    @post = Post.new({
+      :title => params[:title],
+      :caption => params[:caption],
+      :image => params[:photos][@@index]
+    })
+
+    @post = extract(@post)
+
+    # Handle thumbnails
     @post_array_pictures = []
-    for num in 0..@photos.size
-      @post_array_pictures[num] = Post.new({:image => @photos[num]})
+    for num in 0..@@uploads.size
+      @post_array_pictures[num] = Post.new({:image => @@uploads[num]})
     end
-
 
   end
 
@@ -87,138 +106,53 @@ class PostsController < ApplicationController
   def edit
   end
 
-  def create_multi
-    @post = Post.new(post_params)
-    @post.user_id = current_user.id
-    @post.like_count = 0
-    @post.trip_id = @@trip_id
-    unless post_params[:image].nil?
-      if post_params[:image].content_type == 'image/jpeg'
-        img = EXIFR::JPEG.new(post_params[:image].path)
-        unless img.date_time.blank?
-          @post.date ||= img.date_time
-          @post.time ||= img.date_time
-        end
-        if post_params[:location].blank? && !img.gps.blank?
-          lat = img.gps.latitude
-          lon = img.gps.longitude
-
-          geo = Geocoder.search("#{lat},#{lon}").first
-          @post.location = geo.address
-        end
-      end
-    end
-
-
-    respond_to do |format|
-      if @post.save
-        format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' }
-        # to display the new post after creating it
-        #format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        #format.json { render :show, status: :created, location: @post }
-
-        trip = Trip.find_by(id: @@trip_id)
-        start_date = Trip.where(:id => @@trip_id).pluck(:start_date)
-        end_date = Trip.where(:id => @@trip_id).pluck(:end_date)
-
-
-        # If new post's date is earlier than trip's start date
-        if Date.parse(@post.date.to_s) < Date.parse(start_date.to_s)
-          trip.start_date = @post.date
-          trip.save  
-
-          # If new post's date is later than trip's end date
-        elsif Date.parse(@post.date.to_s) > Date.parse(end_date.to_s)
-          trip.end_date = @post.date
-          trip.save
-        end
-
-        @trips = Trip.where(:user_id => current_user.id).order('start_date DESC')
-      else
-        format.html { render :new }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-
   # POST /posts
   # POST /posts.json
   def create
-    # Testing
-    puts "jihui1"
-    puts params[:index]
-    puts params[:photos]
-    puts params[:default_title]
-    puts params[:default_caption]
-
-    #Saving parameters for next form
-    @index = Integer(params[:index])
-    @photos = params[:photos]
-    @deftitle = params[:default_title]
-    @defcaption = params[:default_caption]
-    @trip_id = params[:trip_id]
-    @done = false
+    @verification_finished = false
+    puts "----------------"
+    puts "Creating a post"
 
     # For creating post
     @post = Post.new(post_params)
-    @post.image = post_params[:image]
     @post.user_id = current_user.id
-    @post.trip_id = @trip_id
+    @post.trip_id = @@trip_id
     @post.like_count = 0;
-    puts @post.trip_id
-    puts @post.user_id
 
-
-    
-
+    puts "User: " + @post.user_id.to_s
+    puts "Trip : " + @post.trip_id.to_s
+    puts "----------------"
 
     respond_to do |format|
       if @post.save
-        puts "success"
-        format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' }
-        # to display the new post after creating it
-        #format.html { redirect_to @post, notice: 'Post was successfully created.' }
+        puts "----------------"
+        puts "Saved post successfully"
+        puts "Index is now at " + @@index.to_s
+        puts "Length of uploads is " + @@uploads.size.to_s
+        puts "----------------"
+        @@index = @@index + 1
+
+
+        if @@index < @@uploads.size
+          puts "----------------"
+          puts "Preparing Next Post"
+          puts "----------------"
+          @post = Post.new({
+            :title => @@default_title,
+            :caption => @@default_caption,
+            :image => @@uploads[@@index]
+          })
+          @post = extract(@post)
+        else 
+          @verification_finished = true
+        end
+
+        #format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' } 
         format.js {}
         format.json { render json: @post , status: :created, location: @post }
 
-        # stick in trip date stuff
-        
-        # prepares for next form
-        puts "preparing next post" 
-        if @index < @photos.size
-          @index = @index + 1
-          @post = Post.new({
-            :title => @deftitle,
-            :caption => @defcaption,
-            :image => @photos[@index]
-          })
-          puts @post.title
-          puts @post.caption
-          puts @post.image
-          puts @photos
-          puts @index
-          if @post.image.content_type == 'image/jpeg'
-            puts "processing image"
-            img = EXIFR::JPEG.new(@post.image.path)
-            unless img.date_time.blank?
-              puts "date, time"
-              @post.date ||= img.date_time
-              @post.time ||= img.date_time
-            end
-            if params[:location].blank? && !img.gps.blank?
-              lat = img.gps.latitude
-              lon = img.gps.longitude
-              geo = Geocoder.search("#{lat},#{lon}").first
-              @post.location = geo.address
-            end
-          end
-        else
-          @done = true
-        end
-
       else
-        puts "error"
+        puts "ERRORRRRR"
         @post.errors.full_messages.each do |message|
           puts message
         end

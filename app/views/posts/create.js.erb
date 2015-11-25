@@ -1,5 +1,5 @@
-<% if @done %>
-  alert('all done');
+<% if @verification_finished %>
+  window.location = "<%= trip({:trip_id => @post.trip_id}) %> ";
 <% else %>
-  $("#create-form").html("<%= escape_javascript(render partial: 'remoteform', locals: {index: @index, photos: @photos, default_title: @deftitle, default_caption: @defcaption, trip_id: @trip_id}) %>");
+  $("#create-form").html("<%= escape_javascript(render partial: 'remoteform') %>");
 <% end %>

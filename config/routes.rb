@@ -46,8 +46,8 @@ Rails.application.routes.draw do
   put '/api/posts/:id', to: 'posts#update', as: 'update_post'
   delete '/api/posts/:id', to: 'posts#destroy'
   #get '/trips/:trip_id/posts/new/', to: 'posts#new', as: 'new_post'
-  get '/trips/:trip_id/posts/new/', to: 'posts#new_multi', as: 'new_multi_post'
-  post 'api/posts/upload', to: 'posts#upload', as: 'upload_post'
+  get '/trips/:trip_id/posts/new/', to: 'posts#new', as: 'new_post'
+  post 'api/posts/upload', to: 'posts#verify', as: 'verify_post'
   #post '/api/posts/create_multi', to: 'posts#create_multi', as: 'create_multi_post'
   get '/posts/:id/edit', to: 'posts#edit', as: 'edit_post'
 
