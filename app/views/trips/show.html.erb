@@ -1,13 +1,22 @@
 <div class="row">
-  <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
+  <div class="col-xs-8 col-xs-offset-2 col-lg-4 col-lg-offset-4">
     <div class="trip-details">
       <h1><%= @trip.title %></h1>
-      <p> <%= @trip.start_date.strftime("%b %d, %Y") %> to <%= @trip.end_date.strftime("%b %d, %Y") %> 
-      <%= link_to '[Edit trip]', edit_trip_path(@trip) %> </p>
+      <p class="time"> <%= @trip.start_date.strftime("%b %d, %Y") %> - <%= @trip.end_date.strftime("%b %d, %Y") %> </p>
+
+      <%= link_to edit_trip_path(@trip), class: "icon-link icon-edit" do %>
+        <i class="icon glyphicon glyphicon-pencil" aria-hidden="true"></i>
+      <% end %>
+
+      <%= link_to @trip, method: :delete, data: { confirm: 'Delete this trip?' }, class: "icon-link icon-edit" do %>
+        <i class="icon-trash glyphicon glyphicon-trash" aria-hidden="true"></i>
+      <% end %>
       <h5 class="caption"><%= @trip.about %></h5>
     </div>
 
-    <%= link_to 'List', trip_path(view: "list") %> | <%= link_to 'Map', trip_path(view: "map") %>
+    <div class="center">
+      <%= link_to 'List', trip_path(view: "list") %> | <%= link_to 'Map', trip_path(view: "map") %>
+    </div>
 
     <%= render @partial %>
     
