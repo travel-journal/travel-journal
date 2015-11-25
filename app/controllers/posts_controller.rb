@@ -41,25 +41,29 @@ class PostsController < ApplicationController
   end
 
   def new_multi
+    puts "in new multi"
     @@trip_id = params[:trip_id]
+    puts @@trip_id
   end
 
   def upload
     @post_array = []
     for num in 0..params[:photos].size
       @post = Post.new({
-                        :user_id => current_user.id,
                         :title => params[:title],
                         :caption => params[:caption],
                         :like_count => 0, 
-                        :trip_id => @@trip_id,
                         :image => params[:photos][num]
                       })
       if @post.image.content_type == 'image/jpeg'
+        puts "processing image"
         img = EXIFR::JPEG.new(@post.image.path)
         unless img.date_time.blank?
+          puts "date, time"
           @post.date ||= img.date_time
           @post.time ||= img.date_time
+          puts @post.date
+          puts @post.time
         end
         if params[:location].blank? && !img.gps.blank?
           lat = img.gps.latitude
@@ -77,28 +81,6 @@ class PostsController < ApplicationController
   end
 
   def create_multi
-    puts 'In the create multi path'
-    @post = Post.new(post_params)
-     respond_to do |format|
-      if @post.save
-        puts 'SUCCESS SUCCESS'
-        #format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' }
-        # to display the new post after creating it
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render :show, status: :created, location: @post }
-
-      else
-        puts 'ERROR ERROR'
-        format.html { render :new }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-
-  # POST /posts
-  # POST /posts.json
-  def create
     @post = Post.new(post_params)
     @post.user_id = current_user.id
     @post.like_count = 0
@@ -120,7 +102,7 @@ class PostsController < ApplicationController
       end
     end
 
-    
+
     respond_to do |format|
       if @post.save
         format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' }
@@ -138,7 +120,7 @@ class PostsController < ApplicationController
           trip.start_date = @post.date
           trip.save  
 
-        # If new post's date is later than trip's end date
+          # If new post's date is later than trip's end date
         elsif Date.parse(@post.date.to_s) > Date.parse(end_date.to_s)
           trip.end_date = @post.date
           trip.save
@@ -150,9 +132,39 @@ class PostsController < ApplicationController
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
+  end
 
 
+  # POST /posts
+  # POST /posts.json
+  def create
+    puts "jihui"
+    @post = Post.new(post_params)
+    @post.user_id = current_user.id
+    @post.trip_id = @@trip_id
+    puts @post.trip_id
+    puts @post.user_id
 
+    respond_to do |format|
+      if @post.save
+        puts "success"
+        format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' }
+        # to display the new post after creating it
+        #format.html { redirect_to @post, notice: 'Post was successfully created.' }
+        format.js {}
+        format.json { render json: @post , status: :created, location: @post }
+        
+        # stick in trip date stuff
+      else
+        puts "error"
+        @post.errors.full_messages.each do |message|
+          puts message
+        end
+        format.js {}
+        format.html { render :new }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # PATCH/PUT /posts/1
@@ -180,7 +192,7 @@ class PostsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to trip_path({:id => @t_post.trip_id}), notice: 'Post was successfully destroyed.' }
       format.json { head :no_content }
-      
+
     end
   end
 
