@@ -29,5 +29,4 @@ describe "User Sign In (Integration Tests)" do
 
     page.should have_content("Invalid username or password.")
   end
-
 end
