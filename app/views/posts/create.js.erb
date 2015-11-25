@@ -1,5 +1,5 @@
 <% if @verification_finished %>
-  window.location = "<%= trip({:trip_id => @post.trip_id}) %> ";
+  window.location = "<%= trip_path({:id => @post.trip_id}) %> ";
 <% else %>
   $("#create-form").html("<%= escape_javascript(render partial: 'remoteform') %>");
 <% end %>
