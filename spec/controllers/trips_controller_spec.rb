@@ -87,7 +87,7 @@ describe TripsController do
           trip: FactoryGirl.attributes_for(:trip, title: "My Second Trip!", start_date: nil)
         @trip.reload
         @trip.title.should_not eq("My Second Trip!")
-        @trip.start_date.should eq(Date.today)
+        @trip.start_date.should eq(Faker::Date.between(2.days.ago, 2.days.ago))
       end
       
       it "re-renders the edit method" do

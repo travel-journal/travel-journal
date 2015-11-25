@@ -73,5 +73,26 @@ describe "Posts (Integration Tests)" do
       click_link "Delete"
       page.should have_content("Post was successfully destroyed.")
     end
+
+    describe "Time of Day Filters" do 
+      before :each do
+        click_link "Back"
+      end
+
+      it "able to see morning selection" do
+        click_link "Morning"
+        page.should have_content("Back")
+      end
+
+      it "able to see afternoon selection" do
+        click_link "Afternoon"
+        page.should have_content("Back")
+      end
+
+      it "able to see evening selection" do
+        click_link "Evening"
+        page.should have_content("Evening")
+      end
+    end
   end
 end
