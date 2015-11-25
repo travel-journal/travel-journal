@@ -21,8 +21,8 @@ class TripsController < ApplicationController
   def show
     # English, spanish, french, chinese, korean, japanese, german
     @morning_greetings = ["Good Morning!", "Buenos Días!", "Bonjour!", "早安!", "안녕하세요!", "おはよう!", "Guten Morgen"]
-    @afternoon_greetings = ["Good Morning!", "Buenas Tardes!", "Bonjour!", "午安!", "안녕하세요!", "こんにちは!", "Guten Tag!"]
-    @evening_greetings = ["Good Morning!", "Buenas Noches!", "Bonsoir!", "晚安!", "안녕하세요!", "こんばんは!", "Guten Abend!"]
+    @afternoon_greetings = ["Good Afternoon!", "Buenas Tardes!", "Bonjour!", "午安!", "안녕하세요!", "こんにちは!", "Guten Tag!"]
+    @evening_greetings = ["Good Evening!", "Buenas Noches!", "Bonsoir!", "晚安!", "안녕하세요!", "こんばんは!", "Guten Abend!"]
 
     @partial = params[:view] || "list"
     
