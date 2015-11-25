@@ -106,6 +106,23 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1
   # PATCH/PUT /posts/1.json
   def update
+    unless post_params[:image].nil?
+      if post_params[:image].content_type == 'image/jpeg'
+        img = EXIFR::JPEG.new(post_params[:image].path)
+        unless img.date_time.blank?
+          post_params[:date] ||= img.date_time || @post.date
+          post_params[:time] ||= img.date_time || @post.time
+        end
+        if post_params[:location].blank? && !img.gps.blank?
+          lat = img.gps.latitude
+          lon = img.gps.longitude
+
+          geo = Geocoder.search("#{lat},#{lon}").first
+          post_params[:location] ||= geo.address || @post.location
+        end
+      end
+    end
+
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully updated.' }
