@@ -2,7 +2,7 @@
   <% @afternoon_posts.each_with_index do |post, index| %>
     <div class="trip-container">
       <%= image_tag post.image_url(:day) if post.image? and post.image.day.file.exists? %>
-      <h3><%= link_to "Afternoon Post " + "#{index + 1}", day_posts_path({:date => post.date, :trip_id => post.trip_id, :view => "day"}), :class => "trip-title" %></h3>
+      <h3><%= link_to @afternoon_greetings.sample, day_posts_path({:date => post.date, :trip_id => post.trip_id, :view => "day"}), :class => "trip-title" %></h3>
       <h5 class="time"><%= post.date.strftime("%b %d, %Y")%></h5>
       <h5 class="time"><%= post.time.strftime("%H:%M:%S")%></h5>
 
