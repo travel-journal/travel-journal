@@ -39,7 +39,7 @@ class TripsController < ApplicationController
       end
 
     elsif @partial == "morning"
-      @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order("time ASC")
+      @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order('date ASC').order("time ASC")
       @morning_posts = Array.new
       for post in @posts_of_trip
         if post[:time].hour.to_i < 12 and post[:time].hour.to_i >= 5 
@@ -48,7 +48,7 @@ class TripsController < ApplicationController
       end
 
     elsif @partial == "afternoon"
-      @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order("time ASC")
+      @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order('date ASC').order("time ASC")
       @afternoon_posts = Array.new
       for post in @posts_of_trip
         if post[:time].hour.to_i >= 12 and post[:time].hour.to_i < 17
@@ -57,7 +57,7 @@ class TripsController < ApplicationController
       end
 
     elsif @partial == "evening"
-      @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order("time ASC")
+      @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order('date ASC').order("time ASC")
       @evening_posts = Array.new
       for post in @posts_of_trip
         if post[:time].hour.to_i >= 17 or post[:time].hour.to_i < 5
