@@ -1,11 +1,9 @@
 <div class="thumbnail-row">
-  <% @post_array.each do |post, index| %>
+  <% @post_array_pictures.each do |post, index| %>
     <% if post.image? %>
       <%= image_tag post.image_url(:thumb) %>
     <% end %>
   <% end %>
-  <% @post = @post_array[0]%>
-  <% @index = 1 %>
 </div>
 
 <div class="row">
@@ -13,7 +11,7 @@
     <div class="post-container">
       <h2 class="center-heading">Verify Upload</h2>
       <div id="create-form">
-        <%= render partial: 'remoteform', collect: @users, locals: {index: @index}%>
+        <%= render partial: 'remoteform', collect: @post, locals: {index: @index, photos: @photos, default_title: @deftitle, default_caption: @defcaption, trip_id: @trip_id} %>
 
       </div>
     </div>

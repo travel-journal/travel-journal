@@ -47,33 +47,40 @@ class PostsController < ApplicationController
   end
 
   def upload
-    @post_array = []
-    for num in 0..params[:photos].size
-      @post = Post.new({
-                        :title => params[:title],
-                        :caption => params[:caption],
-                        :image => params[:photos][num]
-                      })
-      if @post.image.content_type == 'image/jpeg'
-        puts "processing image"
-        img = EXIFR::JPEG.new(@post.image.path)
-        unless img.date_time.blank?
-          puts "date, time"
-          @post.date ||= img.date_time
-          @post.time ||= img.date_time
-          puts @post.date
-          puts @post.time
-        end
-        if params[:location].blank? && !img.gps.blank?
-          lat = img.gps.latitude
-          lon = img.gps.longitude
-          geo = Geocoder.search("#{lat},#{lon}").first
-          @post.location = geo.address
-        end
+    @photos= params[:photos]
+    @deftitle = params[:title]
+    @defcaption = params[:caption]
+    @index = 0
+    @trip_id = @@trip_id
+    @post = Post.new({
+      :title => params[:title],
+      :caption => params[:caption],
+      :image => params[:photos][@index]
+    })
+    if @post.image.content_type == 'image/jpeg'
+      puts "processing image"
+      img = EXIFR::JPEG.new(@post.image.path)
+      unless img.date_time.blank?
+        puts "date, time"
+        @post.date ||= img.date_time
+        @post.time ||= img.date_time
+        puts @post.date
+        puts @post.time
       end
-      @post_array[num] = @post
+      if params[:location].blank? && !img.gps.blank?
+        lat = img.gps.latitude
+        lon = img.gps.longitude
+        geo = Geocoder.search("#{lat},#{lon}").first
+        @post.location = geo.address
+      end
     end
-    @index = 0;
+
+    @post_array_pictures = []
+    for num in 0..@photos.size
+      @post_array_pictures[num] = Post.new({:image => @photos[num]})
+    end
+
+
   end
 
   # GET /posts/1/edit
@@ -138,14 +145,33 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    puts "jihui"
+    # Testing
+    puts "jihui1"
+    puts params[:index]
+    puts params[:photos]
+    puts params[:default_title]
+    puts params[:default_caption]
+
+    #Saving parameters for next form
+    @index = Integer(params[:index])
+    @photos = params[:photos]
+    @deftitle = params[:default_title]
+    @defcaption = params[:default_caption]
+    @trip_id = params[:trip_id]
+    @done = false
+
+    # For creating post
     @post = Post.new(post_params)
     @post.image = post_params[:image]
     @post.user_id = current_user.id
-    @post.trip_id = @@trip_id
+    @post.trip_id = @trip_id
     @post.like_count = 0;
     puts @post.trip_id
     puts @post.user_id
+
+
+    
+
 
     respond_to do |format|
       if @post.save
@@ -155,8 +181,42 @@ class PostsController < ApplicationController
         #format.html { redirect_to @post, notice: 'Post was successfully created.' }
         format.js {}
         format.json { render json: @post , status: :created, location: @post }
-        
+
         # stick in trip date stuff
+        
+        # prepares for next form
+        puts "preparing next post" 
+        if @index < @photos.size
+          @index = @index + 1
+          @post = Post.new({
+            :title => @deftitle,
+            :caption => @defcaption,
+            :image => @photos[@index]
+          })
+          puts @post.title
+          puts @post.caption
+          puts @post.image
+          puts @photos
+          puts @index
+          if @post.image.content_type == 'image/jpeg'
+            puts "processing image"
+            img = EXIFR::JPEG.new(@post.image.path)
+            unless img.date_time.blank?
+              puts "date, time"
+              @post.date ||= img.date_time
+              @post.time ||= img.date_time
+            end
+            if params[:location].blank? && !img.gps.blank?
+              lat = img.gps.latitude
+              lon = img.gps.longitude
+              geo = Geocoder.search("#{lat},#{lon}").first
+              @post.location = geo.address
+            end
+          end
+        else
+          @done = true
+        end
+
       else
         puts "error"
         @post.errors.full_messages.each do |message|
