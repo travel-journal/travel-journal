@@ -10,31 +10,35 @@
   <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
     <div class="post-container">
       <h2 class="center-heading">Verify Upload</h2>
+      <div id="create-form">
       <%= form_for(@post,  remote: true) do |f| %>
-        <%= image_tag @post_array[0].image_url(:post) %>
+        <%= @index %>
+        <%= image_tag @post_array[@index].image_url(:post) %>
+        <%= f.hidden_field :image, :value => @post_array[@index].image %>
         <div class="field">
           <%= f.label :title %><br>
-          <%= f.text_field :title, :class => "form-control" , :value => @post_array[0].title %>
+          <%= f.text_field :title, :class => "form-control" , :value => @post_array[@index].title %>
         </div>
         <div class="field">
           <%= f.label :caption %><br>
-          <%= f.text_area :caption, :class => "form-control" , :value => @post_array[0].caption %>
+          <%= f.text_area :caption, :class => "form-control" , :value => @post_array[@index].caption %>
         </div>
         <div class="field">
           <%= f.label :location %><br>
-          <%= f.text_area :location, :class => "form-control" , :value => @post_array[0].location %>
+          <%= f.text_area :location, :class => "form-control" , :value => @post_array[@index].location %>
         </div>
         <div class="field">
           <%= f.label :date %><br>
-          <%= f.date_select :date, :class => "form-control", :default => @post_array[0].date %>    
+          <%= f.date_select :date, :class => "form-control", :default => @post_array[@index].date %>    
         </div>
         <div class="field">
           <%= f.label :time %><br>
-          <%= f.time_select :time, :class => "form-control" , :include_blank => true, :ignore_date => true,  :default => @post_array[0].time %>
-          <%= @post_array[0].time%>
+          <%= f.time_select :time, :class => "form-control" , :include_blank => true, :ignore_date => true,  :default => @post_array[@index].time %>
+          <%= @post_array[@index].time%>
         </div>
         <%= f.submit %>
       <% end %>
+      </div>
     </div>
   </div>
 </div>

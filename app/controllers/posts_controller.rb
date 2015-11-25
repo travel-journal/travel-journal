@@ -52,7 +52,6 @@ class PostsController < ApplicationController
       @post = Post.new({
                         :title => params[:title],
                         :caption => params[:caption],
-                        :like_count => 0, 
                         :image => params[:photos][num]
                       })
       if @post.image.content_type == 'image/jpeg'
@@ -74,6 +73,7 @@ class PostsController < ApplicationController
       end
       @post_array[num] = @post
     end
+    @index = 0;
   end
 
   # GET /posts/1/edit
@@ -140,8 +140,10 @@ class PostsController < ApplicationController
   def create
     puts "jihui"
     @post = Post.new(post_params)
+    @post.image = post_params[:image]
     @post.user_id = current_user.id
     @post.trip_id = @@trip_id
+    @post.like_count = 0;
     puts @post.trip_id
     puts @post.user_id
 
