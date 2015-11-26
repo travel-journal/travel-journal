@@ -7,6 +7,10 @@ describe Post do
   	FactoryGirl.create(:post).should be_valid
   end 
 
+  it "has a valid photo factory" do
+  	FactoryGirl.create(:post_photo).should be_valid
+  end 
+
   it "is invalid without a title" do 
   	FactoryGirl.build(:post, title: nil).should_not be_valid
   end
