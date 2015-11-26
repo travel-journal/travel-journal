@@ -25,6 +25,24 @@
   font-size: 0.9em;
 }
 
+.post-title {
+  margin-top: 0px;
+}
+
+.post-details .post-icons {
+  display: inline-block;
+  margin: 0px;
+  margin-left: 140px;
+}
+
+.post-details .post-icons .edit {
+  margin-right: 6px;
+}
+
+.post-details .post-icons a:hover {
+  text-decoration: none;
+}
+
 .post-container img {
   display:block;
   padding: 0;
@@ -32,6 +50,23 @@
 }
 
 // --------------------------------------------------------------------------
+
+.like-icon {
+  display: inline-block;
+}
+
+.like-icon .heart {
+  color: #c0392b;
+  font-size: 1.1em;
+  opacity: 0.8;
+}
+
+.like-icon .heart:hover {
+  color: #c0392b;
+  font-size: 1.1em;
+  opacity: 1;
+}
+
 
 .like-count {
   display: block;
@@ -56,3 +91,5 @@
   display: inline;
   font-weight: bold;
 }
+
+
