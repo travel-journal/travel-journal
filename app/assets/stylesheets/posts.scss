@@ -23,6 +23,7 @@
 .post-container .post-details {
   display: block;
   font-size: 0.9em;
+  margin-bottom: 20px;
 }
 
 .post-title {
@@ -41,6 +42,11 @@
 
 .post-details .post-icons a:hover {
   text-decoration: none;
+}
+
+.post-container .post-info {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .post-container img {
@@ -92,4 +98,7 @@
   font-weight: bold;
 }
 
+.trash {
+  margin-left: 10px;
+}
 

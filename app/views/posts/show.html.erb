@@ -22,16 +22,20 @@
               </div>
             </div>
 
-            <hr class="hr-one">
-
             <%= image_tag p.image_url(:post) if p.image? and p.image.post.file.exists? %>
-            <h5 class="caption"><%= p.caption %></h5>
-            <div class="like-count">
-              <%= p.like_count %> likes
-              <div class = "like-icon">
-                <%= link_to like_post_path(p.id), :method => :post do %>
-                  <i class="glyphicon glyphicon-heart heart" aria-hidden="true"></i>
-                <% end %>
+            <div class="row post-info">
+              <div class="col-xs-10">
+                <h5 class="caption"><%= p.caption %></h5>
+              </div>
+              <div class="col-xs-2">
+                <div class="like-count">
+                  <%= p.like_count %> likes
+                  <div class = "like-icon">
+                    <%= link_to like_post_path(p.id), :method => :post do %>
+                      <i class="glyphicon glyphicon-heart heart" aria-hidden="true"></i>
+                    <% end %>
+                  </div>
+                </div>
               </div>
             </div>
 
