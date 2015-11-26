@@ -1,6 +1,6 @@
 <div class="row">
-  <div class="col-md-3 col-md-offset-4">
-    <div class="card-box">
+  <div class="col-xs-8 col-xs-offset-2 col-lg-4 col-lg-offset-4">
+    <div class="card">
       <h1 class="center-heading">Sign Up</h1>
 
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
@@ -8,7 +8,7 @@
 
         <div class="field">
           <%= f.label :username %><br>
-          <%= f.text_field :username, autofocus: true, :class => "form-control" , :placeholder => "mcshih_roxx" %>
+          <%= f.text_field :username, autofocus: true, :class => "form-control" , :placeholder => "Username" %>
         </div>
 
         <div class="field">
@@ -26,20 +26,20 @@
 
         <div class="field">
           <%= f.label :email %><br />
-          <%= f.email_field :email, autocomplete: "off", :class => "form-control", :placeholder => "mshih@berkeley.edu" %>
+          <%= f.email_field :email, autocomplete: "off", :class => "form-control", :placeholder => "email@berkeley.edu" %>
         </div>
 
         <div class="field">
           <%= f.label :first_name %><br>
-          <%= f.text_field :first_name, :class => "form-control", :placeholder => "Monica" %>
+          <%= f.text_field :first_name, :class => "form-control", :placeholder => "John" %>
         </div>
         <div class="field">
           <%= f.label :last_name %><br>
-          <%= f.text_field :last_name, :class => "form-control", :placeholder => "Shih"  %>
+          <%= f.text_field :last_name, :class => "form-control", :placeholder => "Smith"  %>
         </div>
         <div class="field">
           <%= f.label :about %><br>
-          <%= f.text_area :about, :class => "form-control", :placeholder => "Hnnnnnnghhh waaaaaw *nervous laughter*" %>
+          <%= f.text_area :about, :class => "form-control", :placeholder => "Perhaps an interesting fact about yourself?" %>
         </div>
   
         <div class="actions">

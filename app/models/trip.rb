@@ -1,6 +1,6 @@
 class Trip < ActiveRecord::Base
     belongs_to :user, :foreign_key => :user_id
-    has_many :posts
+    has_many :posts, :dependent => :destroy
     validates :title, :about, :start_date, :end_date, presence: true
     
 
@@ -16,9 +16,7 @@ class Trip < ActiveRecord::Base
       end 
      end
 
-
-
     def self.search(search)
-      where("title LIKE ? OR about LIKE ?", "%#{search}%", "%#{search}%")
+      where("title ILIKE ? OR about ILIKE ?", "%#{search}%", "%#{search}%")
 	end
 end

@@ -10,23 +10,90 @@ class TripsController < ApplicationController
     else
       @trips = Trip.where(:user_id => current_user.id).order('start_date DESC')
     end
+    @posts = Hash.new
+    @trips.each do |trip|
+      @posts[trip.id] = Post.where(:trip_id => trip.id).limit(1).order("RANDOM()").first
+    end
   end
 
   # GET /trips/1
   # GET /trips/1.json
   def show
-    @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order("created_at DESC")
+    # # English, spanish, french, chinese, korean, japanese, german
+    # @morning_greetings = ["Good Morning!", "Buenos Días!", "Bonjour!", "早安!", "안녕하세요!", "おはよう!", "Guten Morgen"]
+    # @afternoon_greetings = ["Good Afternoon!", "Buenas Tardes!", "Bonjour!", "午安!", "안녕하세요!", "こんにちは!", "Guten Tag!"]
+    # @evening_greetings = ["Good Evening!", "Buenas Noches!", "Bonsoir!", "晚安!", "안녕하세요!", "こんばんは!", "Guten Abend!"]
 
+    # Asian characters currently incompatible
+    # English, spanish, french, german
+    @morning_greetings = ["Good Morning!", "Buenos Días!", "Bonjour!", "Guten Morgen"]
+    @afternoon_greetings = ["Good Afternoon!", "Buenas Tardes!", "Bonjour!", "Guten Tag!"]
+    @evening_greetings = ["Good Evening!", "Buenas Noches!", "Bonsoir!", "Guten Abend!"]
+    
+    @partial = params[:view] || "list"
+    
+    @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order("date ASC")
 
-    previous = nil
-    @a_post_a_day = Array.new
-    for post in @posts_of_trip
-      if previous != post[:date]
-        @a_post_a_day.push(post)
-        previous = post[:date]
+    if @partial == "list"
+      previous = nil
+      @a_post_a_day = Array.new
+      for post in @posts_of_trip
+        if previous != post[:date]
+          @a_post_a_day.push(post)
+          previous = post[:date]
+        end
+      end
+
+    elsif @partial == "morning"
+      @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order('date ASC').order("time ASC")
+      @morning_posts = Array.new
+      for post in @posts_of_trip
+        if post[:time].hour.to_i < 12 and post[:time].hour.to_i >= 5 
+          @morning_posts.push(post)
+        end
+      end
+
+    elsif @partial == "afternoon"
+      @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order('date ASC').order("time ASC")
+      @afternoon_posts = Array.new
+      for post in @posts_of_trip
+        if post[:time].hour.to_i >= 12 and post[:time].hour.to_i < 17
+          @afternoon_posts.push(post)
+        end
+      end
+
+    elsif @partial == "evening"
+      @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order('date ASC').order("time ASC")
+      @evening_posts = Array.new
+      for post in @posts_of_trip
+        if post[:time].hour.to_i >= 17 or post[:time].hour.to_i < 5
+          @evening_posts.push(post)
+        end
+      end
+  
+    else
+      @unique_locations = Array.new
+      for post in @posts_of_trip
+        result = Geocoder.search(post[:location]).first
+        unless result.nil?
+          location = result.city || result.neighborhood || result.province
+          unless @unique_locations.include? location
+            @unique_locations.push(location)
+          end
+        end
+      end
+
+      
+      @pins = Gmaps4rails.build_markers(@unique_locations) do |loc, marker|
+        result = Geocoder.search(loc).first
+        marker.lat result.latitude
+        marker.lng result.longitude
+        marker.title loc
+        loc_link = view_context.link_to "See Posts from #{loc}", day_posts_path({trip_id: @trip.id, location_filter: loc})
+        
+        marker.infowindow "<h4><u>#{loc_link}</u></h4>"
       end
     end
-
   end
 
   # GET /trips/new
@@ -58,7 +125,44 @@ class TripsController < ApplicationController
   # PATCH/PUT /trips/1
   # PATCH/PUT /trips/1.json
   def update
+
     respond_to do |format|
+
+    post_exists = Post.where(:trip_id => params[:id])
+    
+    if !post_exists.empty?
+
+      post_start_date = Post.where(:trip_id => params[:id]).order('date ASC').limit(1).pluck(:date)
+      post_end_date = Post.where(:trip_id => params[:id]).order('date DESC').limit(1).pluck(:date)
+
+      s_year = trip_params['''start_date(1i)'''].to_s
+      s_month = trip_params['''start_date(2i)'''].to_s 
+      s_day = trip_params['''start_date(3i)'''].to_s 
+      s_date = s_year + '-' + s_month + '-' + s_day
+
+      e_year = trip_params['''end_date(1i)'''].to_s
+      e_month = trip_params['''end_date(2i)'''].to_s 
+      e_day = trip_params['''end_date(3i)'''].to_s 
+      e_date = e_year + '-' + e_month + '-' + e_day
+   
+
+        if Date.parse(s_date) > Date.parse(post_start_date.to_s)
+          format.html { render :edit }
+          #@trip.errors.add(:end_date, 'not a valid start date')
+          format.json { render json: @trip.errors, status: :unprocessable_entity }
+
+        end
+
+        if Date.parse(e_date) < Date.parse(post_end_date.to_s) 
+            format.html { render :edit }
+            #@trip.errors.add(:end_date, 'not a valid end date')
+            format.json { render json: @trip.errors, status: :unprocessable_entity }
+
+        end
+      end
+
+      # @trips.errors.messages.delete(:end_date, :start_date)
+
       if @trip.update(trip_params)
         format.html { redirect_to trips_path, notice: 'Trip was successfully updated.' }
         format.json { render :show, status: :ok, location: @trip }
@@ -87,6 +191,6 @@ class TripsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def trip_params
-      params.require(:trip).permit(:title, :about, :start_date, :end_date)
+      params.require(:trip).permit(:title, :about, :start_date, :end_date, :view)
     end
 end

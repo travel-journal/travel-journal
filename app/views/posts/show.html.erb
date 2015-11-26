@@ -1,44 +1,56 @@
 <div class="row">
-  <div class="col-md-3 col-md-offset-4">
-    <div class="post-container">
-      <div class="trip-details">
-        <h2><%= @posts_of_day.first.trip.title %> - <%= @posts_of_day.first.date.strftime("%b %d, %Y") %></h2>              
-      </div>
+  <div class="col-xs-8 col-xs-offset-2 col-lg-4 col-lg-offset-4">
+    <div class="posts">
       <% if !@posts_of_day.empty? %>
+        <div class="trip-details">
+          <h2><%= @posts_of_day.first.trip.title %> - <%= @posts_of_day.first.date.strftime("%b %d, %Y") %></h2>              
+        </div>
         <% @posts_of_day.each do |p| %>
-          <div class="post-box">
-            <h3><%= p.title %></h3>
+          <div class="post-container">
+            <h3 class="post-title"><%= p.title %></h3>
             <div class="post-details">
+              <%= @posts_of_day.first.date.strftime("%b %d, %Y") %>
               <%= p.time.strftime("%I:%M%p") if p.time != '' %>
               <%= ', ' + p.location if p.location != '' %>
-              <%= link_to '[Edit]', edit_post_path(p) %> 
+              <div class="post-icons">
+                <%= link_to edit_post_path(p) do %> 
+                  <i class="glyphicon glyphicon-pencil edit" aria-hidden="true"></i>
+                <% end %>
+                <%= link_to p, method: :delete, data: { confirm: 'Are you sure you?' } do %>
+                  <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                <% end %>
+              </div>
             </div>
 
             <hr class="hr-one">
-            <%= image_tag p.image_url.to_s %>
-            <h5><%= p.caption %></h5>
 
-            <hr class="hr-one">
+            <%= image_tag p.image_url(:post) if p.image? and p.image.post.file.exists? %>
+            <h5 class="caption"><%= p.caption %></h5>
             <div class="like-count">
               <%= p.like_count %> likes
-              <%= link_to '[Like]', like_post_path(p.id), :method => :post%>
-
-              <%# modify this to be able to click on particular post %>
-              <%#= link_to(p.title, day_posts_path({:date => p.date, :trip_id => p.trip_id})) %>
+              <div class = "like-icon">
+                <%= link_to like_post_path(p.id), :method => :post do %>
+                  <i class="glyphicon glyphicon-heart heart" aria-hidden="true"></i>
+                <% end %>
+              </div>
             </div>
+
+            <hr class="hr-one">
             <div class="comment-container">
-              <% p.comments.each do |comment|%>
-                <div>
-                  <div class="user-anon">
-                    <%= 'anonymous ' if comment != nil %>
-                  </div>
-                  <%= comment if comment != nil %>
-                </div>
+              <h3>Comments</h3>
+              <div id="comments">
+                <%= render :partial => p.comments %>
+              </div>
+
+              <%= form_for [p, Comment.new] do |f| %>
+                <p>
+                  <%= f.label :body, "New comment" %><br/>
+                  <%= f.text_area :body %>
+                </p>
+                <p><%= f.submit "Add comment" %></p>
               <% end %>
-              <%= form_tag('/api/posts/'+p.id.to_s+'/add_comment', method: 'post') do %>
-                <textarea name="comment" autocomplete="off" class="form-control areatext" placeholder="I love this picture"></textarea><br>
-                <%= submit_tag("Submit", :class => "btn my-btn") %>
-              <%end %>
+
+
             </div>
           </div>
         <% end %>
