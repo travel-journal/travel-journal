@@ -2,10 +2,23 @@
   <div class="col-xs-8 col-xs-offset-2 col-lg-4 col-lg-offset-4">
     <div class="post-container">
       <h1 class="center-heading">New Post</h1>
-      <%= render 'form' %>
+      <%= form_tag({controller: "posts", action:"verify"}, multipart: true) do %>
+        <div class="field">
+          <%= label_tag "Default Title" %>
+          <%= text_field_tag "title" %>
+        </div>
+        <div class="field">
+          <%= label_tag "Default Caption" %>
+          <%= text_field_tag "caption" %>
+        </div>
+        <%= file_field_tag "photos[]", :accept => 'image/jpeg', :multiple => true, :required => true%>
+        <%= submit_tag "Create" %>
+      <% end %>
       <div class="center">
         <%= link_to "\u2190 Back", trip_path(trip_id) %>
       </div>
     </div>
   </div>
 </div>
+
+
