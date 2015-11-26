@@ -37,19 +37,23 @@ describe "Trips (Integration Tests)" do
     end
 
     it "able to get to edit form" do
-      click_link "Edit"
+      #click_link "Edit"
+      page.first(".icon-link.icon-edit").click
+      #find(".glyphicon.glyphicon-pencil").click
       page.should have_content("Edit Trip")
     end
     
     it "able to edit" do
-      click_link "Edit"
+      #click_link "Edit"
+      page.first(".icon-link.icon-edit").click
       fill_in "Title",   :with => "Cherry"
       click_button "Submit"
       page.should have_content("Cherry")
     end
 
     it "able to delete" do
-      click_link "Delete"
+      page.all(".icon-link.icon-edit")[1].click
+      #click_link "Delete"
       page.should have_content("Trip was successfully destroyed.")
     end
   end
