@@ -4,6 +4,11 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:edit, :update, :destroy]
   before_filter :authenticate_user!
   @@trip_id = nil
+  @@default_caption = nil
+  @@default_title = nil
+  @@uploads = []
+  @@index = nil
+
   # GET /posts
   # GET /posts.json
   def index
@@ -31,13 +36,76 @@ class PostsController < ApplicationController
       end
       @posts_of_day = @unique_locations[params[:location_filter]]
     end
-
   end
 
-  # GET /posts/new
   def new
-    @post = Post.new
     @@trip_id = params[:trip_id]
+
+    puts "---------"
+    puts "New post for " + @@trip_id
+    #puts "Uploads are of length " + @@uploads.size
+    #puts "The caption is " + @@default_caption
+    puts "---------"
+  end
+
+  def extract(post)
+    # Extract medata from first post
+    puts "-----------------"
+    puts "Extracting metadata from a post"
+
+    if post.image.content_type == 'image/jpeg'
+      img = EXIFR::JPEG.new(post.image.path)
+      unless img.date_time.blank?
+        post.date ||= img.date_time
+        post.time ||= img.date_time
+        puts "Post was made on " + post.time.to_s
+        puts "-----------------"
+      end
+      if !img.gps.blank?
+        lat = img.gps.latitude
+        lon = img.gps.longitude
+        geo = Geocoder.search("#{lat},#{lon}").first
+        post.location = geo.address
+      end
+      return post
+    end
+  end
+      
+
+  def verify
+    @@uploads = params[:photos]
+    @@default_title = params[:title]
+    @@default_caption = params[:caption]
+    @@index = 0
+    
+    @post_array_pictures = []
+    
+    if @@uploads.nil?
+      @post = Post.new
+    else
+      puts "---------"
+      puts "Verifying photos"
+      puts "Uploads are of length " + @@uploads.size.to_s
+      puts "The title is " + @@default_title
+      puts "The caption is " + @@default_caption
+      puts "---------"
+
+      # Make first image into a post
+      @post = Post.new({
+        :title => params[:title],
+        :caption => params[:caption],
+        :image => params[:photos][@@index]
+      })
+
+      @post = extract(@post)
+
+      # Handle thumbnails
+      for num in 0..@@uploads.size
+        @post_array_pictures[num] = Post.new({:image => @@uploads[num]})
+      end
+      #else 
+    end
+
   end
 
   # GET /posts/1/edit
@@ -47,35 +115,23 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
+    @verification_finished = false
+    puts "----------------"
+    puts "Creating a post"
+
+    # For creating post
     @post = Post.new(post_params)
     @post.user_id = current_user.id
-    @post.like_count = 0
     @post.trip_id = @@trip_id
-    unless post_params[:image].nil?
-      if post_params[:image].content_type == 'image/jpeg'
-        img = EXIFR::JPEG.new(post_params[:image].path)
-        unless img.date_time.blank?
-          @post.date ||= img.date_time
-          @post.time ||= img.date_time
-        end
-        if post_params[:location].blank? && !img.gps.blank?
-          lat = img.gps.latitude
-          lon = img.gps.longitude
+    @post.like_count = 0;
 
-          geo = Geocoder.search("#{lat},#{lon}").first
-          @post.location = geo.address
-        end
-      end
-    end
+    puts "User: " + @post.user_id.to_s
+    puts "Trip : " + @post.trip_id.to_s
+    puts "----------------"
 
-    
     respond_to do |format|
       if @post.save
-        format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' }
-        # to display the new post after creating it
-        #format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        #format.json { render :show, status: :created, location: @post }
-
+        # Fix trip Date
         trip = Trip.find_by(id: @@trip_id)
         start_date = Trip.where(:id => @@trip_id).pluck(:start_date)
         end_date = Trip.where(:id => @@trip_id).pluck(:end_date)
@@ -93,14 +149,49 @@ class PostsController < ApplicationController
         end
 
         @trips = Trip.where(:user_id => current_user.id).order('start_date DESC')
+
+
+        puts "----------------"
+        puts "Saved post successfully"
+        puts "Index is now at " + @@index.to_s
+        puts "Length of uploads is " + @@uploads.size.to_s
+        puts "----------------"
+        @@index = @@index + 1
+
+
+        if @@index < @@uploads.size
+          puts "----------------"
+          puts "Preparing Next Post"
+          puts "----------------"
+          @post = Post.new({
+            :title => @@default_title,
+            :caption => @@default_caption,
+            :image => @@uploads[@@index]
+          })
+          @post = extract(@post)
+        else 
+          @verification_finished = true
+          @@uploads = nil 
+          @@default_title = nil
+          @@default_caption = nil 
+          @@index = nil
+
+        end
+
+        #format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' } 
+        format.js {}
+        format.json { render json: @post , status: :created, location: @post }
+
       else
+        puts "ERRORRRRR"
+        @post.errors.full_messages.each do |message|
+          puts message
+        end
+        format.js {}
         format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
-
-
-
   end
 
   # PATCH/PUT /posts/1
@@ -128,7 +219,7 @@ class PostsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to trip_path({:id => @t_post.trip_id}), notice: 'Post was successfully destroyed.' }
       format.json { head :no_content }
-      
+
     end
   end
 

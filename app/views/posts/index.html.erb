@@ -1,4 +1,4 @@
-<p id="notice"><%= notice </p>%>
+<p id="notice"><%= notice %></p>
 
 <h1>Listing Posts</h1>
 
@@ -19,22 +19,19 @@
   <tbody>
     <% @posts.each do |post| %>
       <tr>
-          <td><%= post.title </td>%>
-          <td><%= image_tag post.image_url(:thumb) if post.image? </td>%>
-        <td><%= post.caption </td>%>
-        <td><%= post.location </td>%>
-        <td><%= post.date </td>%>
-        <td><%= post.time </td>%>
-        <td><%=post.like_count </td>%>
-        <td><%= link_to 'Show', post </td>%>
-        <td><%= link_to 'Edit', edit_post_path(post) </td>%>
-        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } </td>%>
-        <td><%= link_to 'Like', like_post_path(post.id), :method => :post</td>%>
+        <td><%= post.title %></td>
+        <td><%= image_tag post.image_url(:thumb) if post.image? %></td>
+        <td><%= post.caption %></td>
+        <td><%= post.location %></td>
+        <td><%= post.date %></td>
+        <td><%= post.time %></td>
+        <td><%= post.like_count %></td>
+        <td><%= link_to 'Show', post %></td>
+        <td><%= link_to 'Edit', edit_post_path(post) %></td>
+        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Like', like_post_path(post.id), :method => :post %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Post', new_post_path %>
