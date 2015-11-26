@@ -77,16 +77,19 @@ class PostsController < ApplicationController
     @@default_title = params[:title]
     @@default_caption = params[:caption]
     @@index = 0
+    
+    @post_array_pictures = []
+    
+    if @@uploads.nil?
+      @post = Post.new
+    else
+      puts "---------"
+      puts "Verifying photos"
+      puts "Uploads are of length " + @@uploads.size.to_s
+      puts "The title is " + @@default_title
+      puts "The caption is " + @@default_caption
+      puts "---------"
 
-    puts "---------"
-    puts "Verifying photos"
-    puts "Uploads are of length " + @@uploads.size.to_s
-    puts "The title is " + @@default_title
-    puts "The caption is " + @@default_caption
-    puts "---------"
-
-    @post = Post.new
-    if !params[:photos].nil?
       # Make first image into a post
       @post = Post.new({
         :title => params[:title],
@@ -97,11 +100,10 @@ class PostsController < ApplicationController
       @post = extract(@post)
 
       # Handle thumbnails
-      @post_array_pictures = []
       for num in 0..@@uploads.size
         @post_array_pictures[num] = Post.new({:image => @@uploads[num]})
       end
-    #else 
+      #else 
     end
 
   end

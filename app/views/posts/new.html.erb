@@ -11,7 +11,7 @@
           <%= label_tag "Default Caption" %>
           <%= text_field_tag "caption" %>
         </div>
-        <%= file_field_tag "photos[]", :accept => 'image/jpeg', :multiple => true%>
+        <%= file_field_tag "photos[]", :accept => 'image/jpeg', :multiple => true, :required => true%>
         <%= submit_tag "Create" %>
       <% end %>
       <div class="center">
