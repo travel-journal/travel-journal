@@ -23,10 +23,10 @@ rails server
 
 open localhost:3000 in your browser
 
-=== Instructions if you have ITER1:
+=== Instructions if you have ITER1 or ITER2:
 
 
-git pull origin ITER2
+git pull origin ITER3
 
 bundle install
 
