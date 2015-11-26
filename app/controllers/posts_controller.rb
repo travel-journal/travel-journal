@@ -7,7 +7,7 @@ class PostsController < ApplicationController
   @@default_caption = nil
   @@default_title = nil
   @@uploads = []
-  @@index = nil
+  @@index = 0
 
   # GET /posts
   # GET /posts.json
@@ -178,7 +178,7 @@ class PostsController < ApplicationController
 
         end
 
-        #format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' } 
+        format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' } 
         format.js {}
         format.json { render json: @post , status: :created, location: @post }
 
