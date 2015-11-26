@@ -5,14 +5,15 @@
 
 
 
-  <script type="text/javascript">
-
+    <script type="text/javascript">
     handler = Gmaps.build('Google');
-    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+    handler.buildMap({ 
+      internal: {id: 'map'},
+      provider: {}
+    }, function(){
       markers = handler.addMarkers(<%= raw @pins.to_json %>, {clickable: true});
       handler.bounds.extendWith(markers);
       handler.fitMapToBounds();
-
     });
     
 

@@ -29,7 +29,7 @@
   </div>
   <div class="field">
     <%= f.label :date %><br>
-    <%= f.date_select :date, :include_blank => true%>
+    <%= f.date_select :date, :include_blank => true, :order => [:day, :month, :year] %>
   </div>
   <div class="field">
     <%= f.label :time %><br>
