@@ -43,6 +43,12 @@
   text-align: center;
 }
 
+.day-container {
+  height: inherit;
+  display: block;
+  position: relative;
+}
+
 .day-cover {
   filter: blur(2px);
   -webkit-filter: blur(2px);
@@ -51,20 +57,27 @@
   -ms-filter: blur(2px);
 }
 
-
-.day-cover-title-container {
+.day-title {
   position: absolute;
-}
-
-.day-cover-title {
-  position: relative;
-  color: #fff;
-  font-size: 2em;
-  left: 230px;
-  top: 175px;
+  bottom: 50%;
+  left: 40%;
+  color: #eee;
+  font-size: 3em;
   z-index: 2;
   text-shadow: 
-    1px 1px 1px #000, 0px 1px 1px #eee, 
+    1px 1px 1px #000, 0px 1px 1px #eee;
+}
+
+.day-time {
+  position: absolute;
+  bottom: 45%;
+  left: 42%;
+  color: #eee;
+  font-size: 1.1em;
+  z-index: 2;
+  text-shadow: 
+    1px 1px 1px #000, 0px 1px 1px #eee;
+  text-align: center;
 }
 
 .day-cover-title:hover {
@@ -115,17 +128,15 @@
   left: 0px;
 }
 
-/*@media(min-width:750px){*/
-  /*.icons {*/
-    /*left: 440px;*/
-  /*}*/
-/*}*/
+label {
+  margin-top: 10px;
+  font-weight: 400;
+  font-size: 1.2em;
+}
 
-/*@media(min-width:1500px){*/
-  /*.icons {*/
-    /*left: 450px;*/
-  /*}*/
-/*}*/
+.thumbnail-row {
+  text-align: center;
+}
 
 .icon-link:hover {
   text-decoration:none

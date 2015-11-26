@@ -1,15 +1,15 @@
 <div class="days-container">
   <% @a_post_a_day.each_with_index do |post, index| %>
     <div class="trip-container">
-      <div class="day-cover-title-container">
-        <h3><%= link_to "Day " + "#{index + 1}", day_posts_path({:date => post.date, :trip_id => post.trip_id, :view => "day"}), :class => "day-cover-title" %></h3>
-      </div>
-      <h5 class="time"><%= post.date.strftime("%b %d, %Y")%></h5>
-      <%= link_to day_posts_path({:date => post.date, :trip_id => post.trip_id, :view => "day"}) do %>
-        <% if post.image? and post.image.day.file.exists? %>
-          <%= image_tag(post.image_url(:day), :class => "day-cover") %>
+      <div class="day-container">
+        <%= link_to day_posts_path({:date => post.date, :trip_id => post.trip_id, :view => "day"}) do %>
+          <% if post.image? and post.image.day.file.exists? %>
+            <%= image_tag(post.image_url(:day), :class => "day-cover") %>
+            <h3 class="day-title">Day <%= index %></h3>
+            <h5 class="day-time"><%= post.date.strftime("%b %d, %Y")%></h5>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
     </div>
   <% end %>
 </div>
