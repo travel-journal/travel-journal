@@ -17,4 +17,8 @@ FactoryGirl.define do
   factory :invalid_post, parent: :post do |f|
     f.title nil
   end
+
+  factory :post_photo, parent: :post do |f|
+    f.image './files/camp.jpg'
+  end
 end
