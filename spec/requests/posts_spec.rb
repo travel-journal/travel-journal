@@ -18,7 +18,7 @@ describe "Posts (Integration Tests)" do
   	click_button "Submit"
   	page.should have_content("Trip was successfully created.")
 
-  	click_link "Expand"
+  	click_link "Title"
   end
 
   describe "Creating" do
