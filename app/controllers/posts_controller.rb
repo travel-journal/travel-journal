@@ -85,19 +85,23 @@ class PostsController < ApplicationController
     puts "The caption is " + @@default_caption
     puts "---------"
 
-    # Make first image into a post
-    @post = Post.new({
-      :title => params[:title],
-      :caption => params[:caption],
-      :image => params[:photos][@@index]
-    })
+    @post = Post.new
+    if !params[:photos].nil?
+      # Make first image into a post
+      @post = Post.new({
+        :title => params[:title],
+        :caption => params[:caption],
+        :image => params[:photos][@@index]
+      })
 
-    @post = extract(@post)
+      @post = extract(@post)
 
-    # Handle thumbnails
-    @post_array_pictures = []
-    for num in 0..@@uploads.size
-      @post_array_pictures[num] = Post.new({:image => @@uploads[num]})
+      # Handle thumbnails
+      @post_array_pictures = []
+      for num in 0..@@uploads.size
+        @post_array_pictures[num] = Post.new({:image => @@uploads[num]})
+      end
+    #else 
     end
 
   end
