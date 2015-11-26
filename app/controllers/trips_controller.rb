@@ -19,9 +19,14 @@ class TripsController < ApplicationController
   # GET /trips/1
   # GET /trips/1.json
   def show
+    # English, spanish, french, chinese, korean, japanese, german
+    @morning_greetings = ["Good Morning!", "Buenos Días!", "Bonjour!", "早安!", "안녕하세요!", "おはよう!", "Guten Morgen"]
+    @afternoon_greetings = ["Good Afternoon!", "Buenas Tardes!", "Bonjour!", "午安!", "안녕하세요!", "こんにちは!", "Guten Tag!"]
+    @evening_greetings = ["Good Evening!", "Buenas Noches!", "Bonsoir!", "晚安!", "안녕하세요!", "こんばんは!", "Guten Abend!"]
+
     @partial = params[:view] || "list"
     
-    @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order("created_at DESC")
+    @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order("date ASC")
 
     if @partial == "list"
       previous = nil
@@ -32,6 +37,34 @@ class TripsController < ApplicationController
           previous = post[:date]
         end
       end
+
+    elsif @partial == "morning"
+      @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order('date ASC').order("time ASC")
+      @morning_posts = Array.new
+      for post in @posts_of_trip
+        if post[:time].hour.to_i < 12 and post[:time].hour.to_i >= 5 
+          @morning_posts.push(post)
+        end
+      end
+
+    elsif @partial == "afternoon"
+      @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order('date ASC').order("time ASC")
+      @afternoon_posts = Array.new
+      for post in @posts_of_trip
+        if post[:time].hour.to_i >= 12 and post[:time].hour.to_i < 17
+          @afternoon_posts.push(post)
+        end
+      end
+
+    elsif @partial == "evening"
+      @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order('date ASC').order("time ASC")
+      @evening_posts = Array.new
+      for post in @posts_of_trip
+        if post[:time].hour.to_i >= 17 or post[:time].hour.to_i < 5
+          @evening_posts.push(post)
+        end
+      end
+  
     else
       @unique_locations = Array.new
       for post in @posts_of_trip
@@ -89,32 +122,37 @@ class TripsController < ApplicationController
 
     respond_to do |format|
 
-    post_start_date = Post.where(:trip_id => params[:id]).order('date ASC').limit(1).pluck(:date)
-    post_end_date = Post.where(:trip_id => params[:id]).order('date DESC').limit(1).pluck(:date)
+    post_exists = Post.where(:trip_id => params[:id])
+    
+    if !post_exists.empty?
 
-    s_year = trip_params['''start_date(1i)'''].to_s
-    s_month = trip_params['''start_date(2i)'''].to_s 
-    s_day = trip_params['''start_date(3i)'''].to_s 
-    s_date = s_year + '-' + s_month + '-' + s_day
+      post_start_date = Post.where(:trip_id => params[:id]).order('date ASC').limit(1).pluck(:date)
+      post_end_date = Post.where(:trip_id => params[:id]).order('date DESC').limit(1).pluck(:date)
 
-    e_year = trip_params['''end_date(1i)'''].to_s
-    e_month = trip_params['''end_date(2i)'''].to_s 
-    e_day = trip_params['''end_date(3i)'''].to_s 
-    e_date = e_year + '-' + e_month + '-' + e_day
- 
+      s_year = trip_params['''start_date(1i)'''].to_s
+      s_month = trip_params['''start_date(2i)'''].to_s 
+      s_day = trip_params['''start_date(3i)'''].to_s 
+      s_date = s_year + '-' + s_month + '-' + s_day
 
-      if Date.parse(s_date) > Date.parse(post_start_date.to_s)
-        format.html { render :edit }
-        @trip.errors.add(:end_date, 'not a valid start date')
-        format.json { render json: @trip.errors, status: :unprocessable_entity }
+      e_year = trip_params['''end_date(1i)'''].to_s
+      e_month = trip_params['''end_date(2i)'''].to_s 
+      e_day = trip_params['''end_date(3i)'''].to_s 
+      e_date = e_year + '-' + e_month + '-' + e_day
+   
 
-      end
-
-      if Date.parse(e_date) < Date.parse(post_end_date.to_s) 
+        if Date.parse(s_date) > Date.parse(post_start_date.to_s)
           format.html { render :edit }
-          @trip.errors.add(:end_date, 'not a valid end date')
+          #@trip.errors.add(:end_date, 'not a valid start date')
           format.json { render json: @trip.errors, status: :unprocessable_entity }
 
+        end
+
+        if Date.parse(e_date) < Date.parse(post_end_date.to_s) 
+            format.html { render :edit }
+            #@trip.errors.add(:end_date, 'not a valid end date')
+            format.json { render json: @trip.errors, status: :unprocessable_entity }
+
+        end
       end
 
       # @trips.errors.messages.delete(:end_date, :start_date)
