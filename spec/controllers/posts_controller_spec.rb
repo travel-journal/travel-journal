@@ -7,6 +7,7 @@ include Devise::TestHelpers
 
 def setup
   @request.env["devise.mapping"] = Devise.mappings[:user]
+  @pic = fixture_file_upload('./files/camp.jpg','image/jpeg')
 end
 
 describe PostsController do
@@ -48,7 +49,7 @@ describe PostsController do
         trip = FactoryGirl.create(:trip)  
         PostsController.class_variable_set :@@trip_id, trip.id
         expect{
-          post :create, post: FactoryGirl.attributes_for(:post)
+          post :create, post: FactoryGirl.attributes_for(:post_photo)
         }.to change(Post,:count).by(1)
       end
     end

@@ -12,18 +12,24 @@ class TripsController < ApplicationController
     end
     @posts = Hash.new
     @trips.each do |trip|
-      @posts[trip.id] = Post.where(:trip_id => trip.id).limit(1).order("RANDOM()").first
+      @posts[trip.id] = Post.where(:trip_id => trip.id, :user_id => current_user.id).limit(1).order("RANDOM()").first
     end
   end
 
   # GET /trips/1
   # GET /trips/1.json
   def show
-    # English, spanish, french, chinese, korean, japanese, german
-    @morning_greetings = ["Good Morning!", "Buenos Días!", "Bonjour!", "早安!", "안녕하세요!", "おはよう!", "Guten Morgen"]
-    @afternoon_greetings = ["Good Afternoon!", "Buenas Tardes!", "Bonjour!", "午安!", "안녕하세요!", "こんにちは!", "Guten Tag!"]
-    @evening_greetings = ["Good Evening!", "Buenas Noches!", "Bonsoir!", "晚安!", "안녕하세요!", "こんばんは!", "Guten Abend!"]
+    # # English, spanish, french, chinese, korean, japanese, german
+    # @morning_greetings = ["Good Morning!", "Buenos Días!", "Bonjour!", "早安!", "안녕하세요!", "おはよう!", "Guten Morgen"]
+    # @afternoon_greetings = ["Good Afternoon!", "Buenas Tardes!", "Bonjour!", "午安!", "안녕하세요!", "こんにちは!", "Guten Tag!"]
+    # @evening_greetings = ["Good Evening!", "Buenas Noches!", "Bonsoir!", "晚安!", "안녕하세요!", "こんばんは!", "Guten Abend!"]
 
+    # Asian characters currently incompatible
+    # English, spanish, french, german
+    @morning_greetings = ["Good Morning!", "Buenos Días!", "Bonjour!", "Guten Morgen"]
+    @afternoon_greetings = ["Good Afternoon!", "Buenas Tardes!", "Bonjour!", "Guten Tag!"]
+    @evening_greetings = ["Good Evening!", "Buenas Noches!", "Bonsoir!", "Guten Abend!"]
+    
     @partial = params[:view] || "list"
     
     @posts_of_trip = Post.where(:trip_id => params[:id], :user_id => current_user.id).order("date ASC")

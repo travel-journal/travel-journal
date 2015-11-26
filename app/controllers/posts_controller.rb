@@ -4,10 +4,10 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:edit, :update, :destroy]
   before_filter :authenticate_user!
   @@trip_id = nil
-  @@default_caption = nil
-  @@default_title = nil
-  @@uploads = []
-  @@index = nil
+  @@default_caption = Hash.new
+  @@default_title = Hash.new
+  @@uploads = Hash.new
+  @@index = Hash.new
 
   # GET /posts
   # GET /posts.json
@@ -73,35 +73,36 @@ class PostsController < ApplicationController
       
 
   def verify
-    @@uploads = params[:photos]
-    @@default_title = params[:title]
-    @@default_caption = params[:caption]
-    @@index = 0
+    @user_id = current_user.id
+    @@uploads[@user_id] = params[:photos]
+    @@default_title[@user_id]  = params[:title]
+    @@default_caption[@user_id]  = params[:caption]
+    @@index[@user_id]  = 0
     
     @post_array_pictures = []
     
-    if @@uploads.nil?
+    if @@uploads[@user_id] .nil?
       @post = Post.new
     else
       puts "---------"
       puts "Verifying photos"
-      puts "Uploads are of length " + @@uploads.size.to_s
-      puts "The title is " + @@default_title
-      puts "The caption is " + @@default_caption
+      puts "Uploads are of length " + @@uploads[@user_id] .size.to_s
+      puts "The title is " + @@default_title[@user_id] 
+      puts "The caption is " + @@default_caption[@user_id] 
       puts "---------"
 
       # Make first image into a post
       @post = Post.new({
         :title => params[:title],
         :caption => params[:caption],
-        :image => params[:photos][@@index]
+        :image => params[:photos][@@index[@user_id]]
       })
 
       @post = extract(@post)
 
       # Handle thumbnails
-      for num in 0..@@uploads.size
-        @post_array_pictures[num] = Post.new({:image => @@uploads[num]})
+      for num in 0..@@uploads[@user_id] .size
+        @post_array_pictures[num] = Post.new({:image => @@uploads[@user_id][num]})
       end
       #else 
     end
@@ -115,6 +116,7 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
+    @user_id = current_user.id
     @verification_finished = false
     puts "----------------"
     puts "Creating a post"
@@ -153,32 +155,32 @@ class PostsController < ApplicationController
 
         puts "----------------"
         puts "Saved post successfully"
-        puts "Index is now at " + @@index.to_s
-        puts "Length of uploads is " + @@uploads.size.to_s
+        puts "Index is now at " + @@index[@user_id] .to_s
+        puts "Length of uploads is " + @@uploads[@user_id] .size.to_s
         puts "----------------"
-        @@index = @@index + 1
+        @@index[@user_id]  = @@index[@user_id]  + 1
 
 
-        if @@index < @@uploads.size
+        if @@index[@user_id]  < @@uploads[@user_id] .size
           puts "----------------"
           puts "Preparing Next Post"
           puts "----------------"
           @post = Post.new({
-            :title => @@default_title,
-            :caption => @@default_caption,
-            :image => @@uploads[@@index]
+            :title => @@default_title[@user_id] ,
+            :caption => @@default_caption[@user_id] ,
+            :image => @@uploads[@user_id][@@index[@user_id]]
           })
           @post = extract(@post)
         else 
           @verification_finished = true
-          @@uploads = nil 
-          @@default_title = nil
-          @@default_caption = nil 
-          @@index = nil
+          @@uploads[@user_id]  = nil 
+          @@default_title[@user_id]  = nil
+          @@default_caption[@user_id]  = nil 
+          @@index[@user_id]  = nil
 
         end
 
-        #format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' } 
+        format.html { redirect_to day_posts_path({:date => @post.date, :trip_id => @post.trip_id}), notice: 'Post was successfully created.' } 
         format.js {}
         format.json { render json: @post , status: :created, location: @post }
 
