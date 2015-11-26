@@ -12,7 +12,7 @@ class TripsController < ApplicationController
     end
     @posts = Hash.new
     @trips.each do |trip|
-      @posts[trip.id] = Post.where(:trip_id => trip.id).limit(1).order("RANDOM()").first
+      @posts[trip.id] = Post.where(:trip_id => trip.id, :user_id => current_user.id).limit(1).order("RANDOM()").first
     end
   end
 
