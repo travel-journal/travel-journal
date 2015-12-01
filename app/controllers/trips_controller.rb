@@ -125,10 +125,12 @@ class TripsController < ApplicationController
   # PATCH/PUT /trips/1
   # PATCH/PUT /trips/1.json
   def update
+    invalid_date = false
 
     respond_to do |format|
 
     post_exists = Post.where(:trip_id => params[:id])
+
     
     if !post_exists.empty?
 
@@ -147,15 +149,18 @@ class TripsController < ApplicationController
    
 
         if Date.parse(s_date) > Date.parse(post_start_date.to_s)
+          invalid_date = true
           format.html { render :edit }
-          #@trip.errors.add(:end_date, 'not a valid start date')
+          @trip.errors.add(:start_date, 'not a valid start date')
           format.json { render json: @trip.errors, status: :unprocessable_entity }
+          puts 'date not supposed to change'
 
         end
 
         if Date.parse(e_date) < Date.parse(post_end_date.to_s) 
+            invalid_date = true
             format.html { render :edit }
-            #@trip.errors.add(:end_date, 'not a valid end date')
+            @trip.errors.add(:end_date, 'not a valid end date')
             format.json { render json: @trip.errors, status: :unprocessable_entity }
 
         end
@@ -163,7 +168,8 @@ class TripsController < ApplicationController
 
       # @trips.errors.messages.delete(:end_date, :start_date)
 
-      if @trip.update(trip_params)
+      if !invalid_date and @trip.update(trip_params) 
+        puts 'date changed successfully'
         format.html { redirect_to trips_path, notice: 'Trip was successfully updated.' }
         format.json { render :show, status: :ok, location: @trip }
       else
