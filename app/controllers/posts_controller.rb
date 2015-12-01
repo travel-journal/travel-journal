@@ -20,7 +20,7 @@ class PostsController < ApplicationController
   def show
     @posts_of_day = Array.new
     if params[:location_filter].nil? 
-      @posts_of_day = Post.where(:trip_id => params[:trip_id], :user_id => current_user.id, :date => params[:date]).order("time DESC")
+      @posts_of_day = Post.where(:trip_id => params[:trip_id], :user_id => current_user.id, :date => params[:date]).order("time ASC")
     else 
       # get posts from that city
       @unique_locations = Hash.new
