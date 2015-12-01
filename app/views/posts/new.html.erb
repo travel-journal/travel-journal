@@ -1,18 +1,18 @@
 <div class="row">
   <div class="col-xs-8 col-xs-offset-2 col-lg-4 col-lg-offset-4">
     <div class="post-container">
-      <h1 class="center-heading">New Post</h1>
+      <h1 class="center-heading">Add Posts</h1>
       <%= form_tag({controller: "posts", action:"verify"}, multipart: true) do %>
         <div class="field">
           <%= label_tag "Default Title" %>
-          <%= text_field_tag "title" %>
+          <%= text_field_tag "title", "", class: "form-control" %>
         </div>
         <div class="field">
           <%= label_tag "Default Caption" %>
-          <%= text_field_tag "caption" %>
+          <%= text_field_tag "caption", "", class: "form-control" %>
         </div>
-        <%= file_field_tag "photos[]", :accept => 'image/jpeg', :multiple => true, :required => true%>
-        <%= submit_tag "Create" %>
+        <%= file_field_tag "photos[]", :accept => 'image/jpeg', :multiple => true, :required => true %>
+        <%= submit_tag "Submit", :class => "btn my-btn"  %>
       <% end %>
       <div class="center">
         <%= link_to "\u2190 Back", trip_path(trip_id) %>

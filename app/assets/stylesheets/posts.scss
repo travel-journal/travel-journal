@@ -6,14 +6,23 @@
 //                          POST CONTAINER
 //----------------------------------------------------------------------------
 .post-container {
+  position: relative;
+  display: block;
+  height: inherit;
   margin: 20px;
   padding: 20px;
   background: #fff;
-  display: block;
   border-radius: 2px; 
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   margin-bottom: 20px;
+  @media only screen and (min-width : 700px) {
+    min-width: 510px;
+  }
+
+  @media (max-width : 700px) {
+    min-width: 410px;
+  }
 }
 
 .post-container h3 {
@@ -23,24 +32,29 @@
 .post-container .post-details {
   display: block;
   font-size: 0.9em;
+  margin-bottom: 20px;
 }
 
 .post-title {
   margin-top: 0px;
 }
 
-.post-details .post-icons {
-  display: inline-block;
-  margin: 0px;
-  margin-left: 140px;
+.post-icons {
+  position: absolute;
+  left: 90%;
 }
 
-.post-details .post-icons .edit {
+.post-icons .edit {
   margin-right: 6px;
 }
 
-.post-details .post-icons a:hover {
+.post-icons a:hover {
   text-decoration: none;
+}
+
+.post-container .post-info {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .post-container img {
@@ -87,9 +101,7 @@
   margin-bottom: 0px;
 }
 
-.user-anon {
-  display: inline;
-  font-weight: bold;
+.trash {
+  margin-left: 10px;
 }
-
 
