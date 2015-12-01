@@ -7,9 +7,11 @@
 //                          TRIP CONTAINER
 //----------------------------------------------------------------------------
 .trip-container {
+  position: relative;
+  display: block;
+  height: inherit;
   padding: 20px;
   background: #fff;
-  display: block;
   border-radius: 2px; 
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
@@ -123,9 +125,9 @@
 
 .icons {
   display: block;
-  position: relative;
-  bottom: 150px;
-  left: 0px;
+  position: absolute;
+  left: 90%;
+  top: 10px;
 }
 
 label {
